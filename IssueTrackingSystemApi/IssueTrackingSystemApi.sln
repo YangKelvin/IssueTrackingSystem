@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi", "IssueTrackingSystemApi\IssueTrackingSystemApi.csproj", "{E24C0D3A-6B2D-4064-BB2C-6A8F2ED7C8D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi.CommonTools", "IssueTrackingSystemApi.CommonTools\IssueTrackingSystemApi.CommonTools.csproj", "{55DC509F-C459-4138-8CA9-3F7BE1DC119C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E24C0D3A-6B2D-4064-BB2C-6A8F2ED7C8D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E24C0D3A-6B2D-4064-BB2C-6A8F2ED7C8D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E24C0D3A-6B2D-4064-BB2C-6A8F2ED7C8D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55DC509F-C459-4138-8CA9-3F7BE1DC119C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55DC509F-C459-4138-8CA9-3F7BE1DC119C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55DC509F-C459-4138-8CA9-3F7BE1DC119C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55DC509F-C459-4138-8CA9-3F7BE1DC119C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
