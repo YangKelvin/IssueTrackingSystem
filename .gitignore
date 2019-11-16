@@ -1,3 +1,4 @@
-IssueTrackingSystemApi/.vs/
-IssueTrackingSystemApi/IssueTrackingSystemApi/obj/
-IssueTrackingSystemApi/IssueTrackingSystemApi/bin/
+.vs
+obj
+bin
+packages

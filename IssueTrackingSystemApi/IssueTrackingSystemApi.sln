@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi", "IssueTrackingSystemApi\IssueTrackingSystemApi.csproj", "{E24C0D3A-6B2D-4064-BB2C-6A8F2ED7C8D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTrackingSystemApi", "IssueTrackingSystemApi\IssueTrackingSystemApi.csproj", "{E24C0D3A-6B2D-4064-BB2C-6A8F2ED7C8D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi.CommonTools", "IssueTrackingSystemApi.CommonTools\IssueTrackingSystemApi.CommonTools.csproj", "{55DC509F-C459-4138-8CA9-3F7BE1DC119C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTrackingSystemApi.CommonTools", "IssueTrackingSystemApi.CommonTools\IssueTrackingSystemApi.CommonTools.csproj", "{55DC509F-C459-4138-8CA9-3F7BE1DC119C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi.Services", "IssueTrackingSystem.Services\IssueTrackingSystemApi.Services.csproj", "{ED27DE74-3EB1-4FE7-96B2-2416220E1101}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi.Models", "IssueTrackingSystemApi.Models\IssueTrackingSystemApi.Models.csproj", "{9CBCD6B8-7FBE-4324-81B4-19CFD3D048C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi.Dao", "IssueTrackingSystemApi.Dao\IssueTrackingSystemApi.Dao.csproj", "{28CA2971-62FA-4620-BD01-C07D866B7286}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{55DC509F-C459-4138-8CA9-3F7BE1DC119C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55DC509F-C459-4138-8CA9-3F7BE1DC119C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55DC509F-C459-4138-8CA9-3F7BE1DC119C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED27DE74-3EB1-4FE7-96B2-2416220E1101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED27DE74-3EB1-4FE7-96B2-2416220E1101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED27DE74-3EB1-4FE7-96B2-2416220E1101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED27DE74-3EB1-4FE7-96B2-2416220E1101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CBCD6B8-7FBE-4324-81B4-19CFD3D048C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CBCD6B8-7FBE-4324-81B4-19CFD3D048C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CBCD6B8-7FBE-4324-81B4-19CFD3D048C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CBCD6B8-7FBE-4324-81B4-19CFD3D048C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28CA2971-62FA-4620-BD01-C07D866B7286}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28CA2971-62FA-4620-BD01-C07D866B7286}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28CA2971-62FA-4620-BD01-C07D866B7286}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28CA2971-62FA-4620-BD01-C07D866B7286}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
