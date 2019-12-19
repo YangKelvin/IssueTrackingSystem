@@ -1,17 +1,74 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 using System.Text;
+using System.Linq;
+using IssueTrackingSystemApi.Models.Entity;
 
 namespace IssueTrackingSystemApi.CommonTools
 {
-    public class ObjectToSql
+    public class SqlHelper
     {
-        //static IEnumerable<T> Query<T>()
-        //{
+        private string ConnectString = @"Data Source=REX-LIN\COURSE_SQL;Initial Catalog=ITS;User ID=sqlLogin;Password=password1123";
 
-        //}
+        public enum SqlAction
+        {
+            SELECT,
+
+        }
+        public static string ObjectToString<T>(T conition, SqlAction action = SqlAction.SELECT)
+        {
+            Type type = typeof(T);
+            StringBuilder sql = new StringBuilder("");
+
+            string tableName = (type.GetCustomAttributes().FirstOrDefault(i => i is DBAttribute) as DBAttribute).TableName;
+
+            switch (action)
+            {
+                case SqlAction.SELECT:
+                    PropertyInfo[] properties = type.GetProperties();
+
+                    sql.AppendLine("SELECT ");
+                    foreach (PropertyInfo pi in properties) // [DBAttribute.ColumnName] AS [PropertyName]
+                    {
+                        sql.AppendLine($"[{GetColumnName(pi)}] AS [{pi.Name}]");
+                    }
+                    sql.AppendLine($"FROM {tableName}");
+
+                    break;
+                default:
+                    return null;
+            }
+            return null;
+        }
+
+        // 取得DBAttribute的ColumnName
+        private static string GetColumnName(PropertyInfo property)
+        {
+            var attrs = property.GetCustomAttributes();
+
+            foreach (Attribute attr in attrs)
+            {
+                if (attr is DBAttribute)
+                {
+                    return (attr as DBAttribute).ColumnName;
+                }
+            }
+            return null;
+        }
+
+
+        //把從資料庫得到的DataTable 轉換成class List
+        private List<T> GetItemListFromDataTable<T>(DataTable dataTable) where T : new()
+        {
+            string tableStr = JsonConvert.SerializeObject(dataTable);
+            List<T> itemList = JsonConvert.DeserializeObject<List<T>>(tableStr);
+
+            return itemList;
+        }
 
         public enum TransactionResultType
         {
