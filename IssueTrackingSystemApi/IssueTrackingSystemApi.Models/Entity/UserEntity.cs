@@ -4,14 +4,28 @@ using System.Text;
 
 namespace IssueTrackingSystemApi.Models.Entity
 {
+    [DB(TableName = "User")]
     public class UserEntity
     {
-        public int Id { get; set; }
-        public string Account { get; set; }
+        [DB(ColumnName = "Id")]
+        public int _Id { get; set; }
+
+        [DB(ColumnName = "Account")]
+        public string _Account { get; set; }
+
+        [DB(ColumnName = "Password")]
         public string Password { get; set; }
+
+        [DB(ColumnName = "EMail")]
         public string EMail { get; set; }
+
+        [DB(ColumnName = "CharactorId")]
         public int CharactorId { get; set; }
+
+        [DB(ColumnName = "Name")]
         public string Name { get; set; }
+
+        [DB(ColumnName = "LineId")]
         public string LineId { get; set; }
     }
 }

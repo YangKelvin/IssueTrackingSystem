@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTrackingSystemApi", "IssueTrackingSystemApi\IssueTrackingSystemApi.csproj", "{E24C0D3A-6B2D-4064-BB2C-6A8F2ED7C8D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTrackingSystemApi.CommonTools", "IssueTrackingSystemApi.CommonTools\IssueTrackingSystemApi.CommonTools.csproj", "{55DC509F-C459-4138-8CA9-3F7BE1DC119C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTrackingSystemApi.Services", "IssueTrackingSystem.Services\IssueTrackingSystemApi.Services.csproj", "{ED27DE74-3EB1-4FE7-96B2-2416220E1101}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi.Services", "IssueTrackingSystem.Services\IssueTrackingSystemApi.Services.csproj", "{ED27DE74-3EB1-4FE7-96B2-2416220E1101}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTrackingSystemApi.Models", "IssueTrackingSystemApi.Models\IssueTrackingSystemApi.Models.csproj", "{9CBCD6B8-7FBE-4324-81B4-19CFD3D048C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi.Models", "IssueTrackingSystemApi.Models\IssueTrackingSystemApi.Models.csproj", "{9CBCD6B8-7FBE-4324-81B4-19CFD3D048C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTrackingSystemApi.Dao", "IssueTrackingSystemApi.Dao\IssueTrackingSystemApi.Dao.csproj", "{28CA2971-62FA-4620-BD01-C07D866B7286}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi.Dao", "IssueTrackingSystemApi.Dao\IssueTrackingSystemApi.Dao.csproj", "{28CA2971-62FA-4620-BD01-C07D866B7286}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi.CommonTools", "IssueTrackingSystemApi.CommonTools\IssueTrackingSystemApi.CommonTools.csproj", "{2EE455D6-482C-4F36-9118-38840ADA6134}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi.Tests", "IssueTrackingSystemApi.Tests\IssueTrackingSystemApi.Tests.csproj", "{7E8DE2E8-458C-4396-95E2-ECB3AC11CE07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +25,6 @@ Global
 		{E24C0D3A-6B2D-4064-BB2C-6A8F2ED7C8D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E24C0D3A-6B2D-4064-BB2C-6A8F2ED7C8D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E24C0D3A-6B2D-4064-BB2C-6A8F2ED7C8D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55DC509F-C459-4138-8CA9-3F7BE1DC119C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55DC509F-C459-4138-8CA9-3F7BE1DC119C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55DC509F-C459-4138-8CA9-3F7BE1DC119C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55DC509F-C459-4138-8CA9-3F7BE1DC119C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ED27DE74-3EB1-4FE7-96B2-2416220E1101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ED27DE74-3EB1-4FE7-96B2-2416220E1101}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED27DE74-3EB1-4FE7-96B2-2416220E1101}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +37,14 @@ Global
 		{28CA2971-62FA-4620-BD01-C07D866B7286}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28CA2971-62FA-4620-BD01-C07D866B7286}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28CA2971-62FA-4620-BD01-C07D866B7286}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EE455D6-482C-4F36-9118-38840ADA6134}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EE455D6-482C-4F36-9118-38840ADA6134}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EE455D6-482C-4F36-9118-38840ADA6134}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EE455D6-482C-4F36-9118-38840ADA6134}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E8DE2E8-458C-4396-95E2-ECB3AC11CE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E8DE2E8-458C-4396-95E2-ECB3AC11CE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E8DE2E8-458C-4396-95E2-ECB3AC11CE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E8DE2E8-458C-4396-95E2-ECB3AC11CE07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
