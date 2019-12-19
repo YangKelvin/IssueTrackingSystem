@@ -8,7 +8,7 @@ namespace IssueTrackingSystemApi.Models.Entity
     public class UserEntity
     {
         [DB(ColumnName = "Id")]
-        public int _Id { get; set; }
+        public int? _Id { get; set; }
 
         [DB(ColumnName = "Account")]
         public string _Account { get; set; }
@@ -20,7 +20,7 @@ namespace IssueTrackingSystemApi.Models.Entity
         public string EMail { get; set; }
 
         [DB(ColumnName = "CharactorId")]
-        public int CharactorId { get; set; }
+        public int? CharactorId { get; set; }
 
         [DB(ColumnName = "Name")]
         public string Name { get; set; }
