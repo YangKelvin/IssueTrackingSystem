@@ -4,7 +4,7 @@ USE ITS;
 CREATE TABLE [IssueComment] (
     [IssueId] INT,                    -- 問題流水號
     [CommentId] INT,                  -- 留言流水號
-    [CommenterId] INT,                -- 留言人
+    [CommenterId] INT,                -- 留言人
     [Content] NVARCHAR(255 ),         -- 留言內容
     [CreateTime] DATETIME,            -- 留言問題時間
     [CreateUesr] INT,                 -- 留言人 Id
