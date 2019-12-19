@@ -1,8 +1,8 @@
 USE ITS;
 
 -- 問題嚴重性資料表
-CREATE TABLE IssueSeverity (
-    [Id] INT PRIMARY KEY,
+CREATE TABLE [IssueSeverity] (
+    [Id] INT PRIMARY KEY NOT NULL IDENTITY,
     [Name] NVARCHAR(50)
 );
 

@@ -1,8 +1,8 @@
 USE ITS;
 
 -- 專案資料表
-CREATE TABLE Project (
-    [Id] INT PRIMARY KEY,
+CREATE TABLE [Project] (
+    [Id] INT PRIMARY KEY NOT NULL IDENTITY,
     [Name] NVARCHAR(50)
 );
 

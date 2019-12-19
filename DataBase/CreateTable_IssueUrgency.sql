@@ -1,8 +1,8 @@
 USE ITS;
 
 -- 問題緊急性資料表
-CREATE TABLE IssueUrgency (
-    [Id] INT PRIMARY KEY,
+CREATE TABLE [IssueUrgency] (
+    [Id] INT PRIMARY KEY NOT NULL IDENTITY,
     [Name] NVARCHAR(50)
 );
 

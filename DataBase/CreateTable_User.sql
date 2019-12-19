@@ -2,14 +2,14 @@ USE ITS;
 
 -- 用戶帳號資料表
 CREATE TABLE [User] (
-    [Id] INT PRIMARY KEY,
-    Account NVARCHAR(50),
+    [Id] INT PRIMARY KEY NOT NULL IDENTITY,
+    [Account] NVARCHAR(50),
     [Password] NVARCHAR(50),
-    EMail NVARCHAR(50),
-    CharactorId INT,
+    [EMail] NVARCHAR(50),
+    [CharactorId] INT,
     [Name] NVARCHAR(50),
-    LineId NVARCHAR(50),
-    FOREIGN KEY (CharactorId) REFERENCES Charactor(Id)
+    [LineId] NVARCHAR(50),
+    FOREIGN KEY (CharactorId) REFERENCES [Charactor](Id)
 );
 
 -- 系統管理員

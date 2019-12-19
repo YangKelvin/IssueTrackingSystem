@@ -1,8 +1,8 @@
 USE ITS;
 
 -- 問題種類資料表
-CREATE TABLE IssueKind (
-    [Id] INT PRIMARY KEY,
+CREATE TABLE [IssueKind] (
+    [Id] INT PRIMARY KEY NOT NULL IDENTITY,
     [Name] NVARCHAR(50)
 );
 

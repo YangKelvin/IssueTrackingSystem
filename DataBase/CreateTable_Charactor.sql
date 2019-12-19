@@ -1,8 +1,8 @@
 USE ITS;
 
 -- 資料表
-CREATE TABLE Charactor (
-    [Id] INT PRIMARY KEY,
+CREATE TABLE [Charactor] (
+    [Id] INT PRIMARY KEY NOT NULL IDENTITY,
     [Name] NVARCHAR(50)
 );
 

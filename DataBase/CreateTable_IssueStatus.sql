@@ -1,8 +1,8 @@
 USE ITS;
 
 -- 問題處理狀態資料表
-CREATE TABLE IssueStatus (
-    [Id] INT PRIMARY KEY,
+CREATE TABLE [IssueStatus] (
+    [Id] INT PRIMARY KEY NOT NULL IDENTITY,
     [Name] NVARCHAR(50)
 );
 

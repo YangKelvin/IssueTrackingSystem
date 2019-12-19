@@ -1,8 +1,8 @@
 USE ITS;
 
 -- 專案角色資料表
-CREATE TABLE ProjectCharactor (
-    [Id] INT PRIMARY KEY,
+CREATE TABLE [ProjectCharactor] (
+    [Id] INT PRIMARY KEY NOT NULL IDENTITY,
     [Name] NVARCHAR(50)
 );
 
