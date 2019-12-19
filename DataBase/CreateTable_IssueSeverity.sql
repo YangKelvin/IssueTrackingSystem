@@ -6,8 +6,8 @@ CREATE TABLE [IssueSeverity] (
     [Name] NVARCHAR(50)
 );
 
-INSERT INTO IssueSeverity([Id], [Name]) VALUES (1, 'Unknown')       -- 未知
-INSERT INTO IssueSeverity([Id], [Name]) VALUES (2, 'Trival')        -- 不重要的
-INSERT INTO IssueSeverity([Id], [Name]) VALUES (3, 'Minor')         -- 次要的
-INSERT INTO IssueSeverity([Id], [Name]) VALUES (4, 'Critical')      -- 危急的
-INSERT INTO IssueSeverity([Id], [Name]) VALUES (5, 'Major')         -- 重要的
+INSERT INTO IssueSeverity([Name]) VALUES ('Unknown')       -- 未知
+INSERT INTO IssueSeverity([Name]) VALUES ('Trival')        -- 不重要的
+INSERT INTO IssueSeverity([Name]) VALUES ('Minor')         -- 次要的
+INSERT INTO IssueSeverity([Name]) VALUES ('Critical')      -- 危急的
+INSERT INTO IssueSeverity([Name]) VALUES ('Major')         -- 重要的

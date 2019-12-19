@@ -6,7 +6,7 @@ CREATE TABLE [IssueKind] (
     [Name] NVARCHAR(50)
 );
 
-INSERT INTO IssueKind([Id], [Name]) VALUES (1, 'Trobleshooting')        -- 疑難排解
-INSERT INTO IssueKind([Id], [Name]) VALUES (2, 'FunctionDevelopment')   -- 功能開發
-INSERT INTO IssueKind([Id], [Name]) VALUES (3, 'GraphicDesign')         -- 平面設計
-INSERT INTO IssueKind([Id], [Name]) VALUES (4, 'Other')                 -- 其他
+INSERT INTO IssueKind([Name]) VALUES ('Trobleshooting')        -- 疑難排解
+INSERT INTO IssueKind([Name]) VALUES ('FunctionDevelopment')   -- 功能開發
+INSERT INTO IssueKind([Name]) VALUES ('GraphicDesign')         -- 平面設計
+INSERT INTO IssueKind([Name]) VALUES ('Other')                 -- 其他

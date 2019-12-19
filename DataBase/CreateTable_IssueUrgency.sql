@@ -6,7 +6,7 @@ CREATE TABLE [IssueUrgency] (
     [Name] NVARCHAR(50)
 );
 
-INSERT INTO IssueUrgency([Id], [Name]) VALUES (1, 'Urgent')             -- 緊急
-INSERT INTO IssueUrgency([Id], [Name]) VALUES (2, 'AsFastAsPossible')   -- 盡速
-INSERT INTO IssueUrgency([Id], [Name]) VALUES (3, 'Normal')             -- 普通
-INSERT INTO IssueUrgency([Id], [Name]) VALUES (4, 'NotUrgent')          -- 不急
+INSERT INTO IssueUrgency([Name]) VALUES ('Urgent')             -- 緊急
+INSERT INTO IssueUrgency([Name]) VALUES ('AsFastAsPossible')   -- 盡速
+INSERT INTO IssueUrgency([Name]) VALUES ('Normal')             -- 普通
+INSERT INTO IssueUrgency([Name]) VALUES ('NotUrgent')          -- 不急
