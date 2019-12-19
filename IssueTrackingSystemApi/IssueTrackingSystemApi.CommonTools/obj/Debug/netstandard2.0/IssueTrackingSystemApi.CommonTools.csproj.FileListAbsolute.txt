@@ -1,4 +1,0 @@
-/Users/yangyo/Desktop/IssueTrackingSystem/IssueTrackingSystemApi/IssueTrackingSystemApi.CommonTools/obj/Debug/netstandard2.0/IssueTrackingSystemApi.CommonTools.csprojAssemblyReference.cache
-/Users/yangyo/Desktop/IssueTrackingSystem/IssueTrackingSystemApi/IssueTrackingSystemApi.CommonTools/obj/Debug/netstandard2.0/IssueTrackingSystemApi.CommonTools.csproj.CoreCompileInputs.cache
-/Users/yangyo/Desktop/IssueTrackingSystem/IssueTrackingSystemApi/IssueTrackingSystemApi.CommonTools/obj/Debug/netstandard2.0/IssueTrackingSystemApi.CommonTools.AssemblyInfoInputs.cache
-/Users/yangyo/Desktop/IssueTrackingSystem/IssueTrackingSystemApi/IssueTrackingSystemApi.CommonTools/obj/Debug/netstandard2.0/IssueTrackingSystemApi.CommonTools.AssemblyInfo.cs
