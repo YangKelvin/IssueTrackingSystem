@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IssueTrackingSystemApi.CommonTools;
+using IssueTrackingSystemApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,9 +29,16 @@ namespace IssueTrackingSystemApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new ProducesAttribute("application/json"));
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddTransient<SqlHelper>();
+            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IProjectService, ProjectService>();
+            services.AddSingleton<IIssueService, IssueService>();
 
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

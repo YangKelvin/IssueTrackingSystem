@@ -7,12 +7,12 @@ namespace IssueTrackingSystemApi.Services
 {
     public interface IProjectService
     {
-        List<Project> Projects();
+        List<Project> GetAllProjects();
 
         int CreateProject(Project project);
 
         Project GetProjectById(int id);
 
-        int UpdateProject(int id);
+        int UpdateProject(Project project);
     }
 }

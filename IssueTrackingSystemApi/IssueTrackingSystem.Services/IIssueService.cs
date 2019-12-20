@@ -7,9 +7,9 @@ namespace IssueTrackingSystemApi.Services
 {
     public interface IIssueService
     {
-        List<Issue> Issues();
+        List<Issue> GetAllIssues();
 
-        Issue GetIssue(int id);
+        Issue GetIssueById(int id);
 
         int UpdateIssue(Issue issue);
 

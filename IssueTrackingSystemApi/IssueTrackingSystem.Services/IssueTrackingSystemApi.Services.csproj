@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IssueTrackingSystemApi.Dao\IssueTrackingSystemApi.Dao.csproj" />
+    <ProjectReference Include="..\IssueTrackingSystemApi.Models\IssueTrackingSystemApi.Models.csproj" />
+  </ItemGroup>
+
 </Project>
