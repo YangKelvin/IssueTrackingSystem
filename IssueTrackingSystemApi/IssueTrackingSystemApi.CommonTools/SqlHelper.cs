@@ -30,6 +30,19 @@ namespace IssueTrackingSystemApi.CommonTools
             return result;
         }
 
+        public static IEnumerable<T> Select<T>(string sqlStr, Dictionary<string, object> sqlParmDic = null) where T : class, new()
+        {
+            IEnumerable<T> result;
+            using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
+            {
+                SqlCommand sql = new SqlCommand(sqlStr);
+                var dataTable = QueryWithNolock(conn, sql, sqlParmDic);
+                result = GetItemListFromDataTable<T>(dataTable);
+            }
+
+            return result;
+        }
+
         public static int Insert<T>(T insertData) where T : class, new()
         {
             int id = -1;
@@ -63,6 +76,18 @@ namespace IssueTrackingSystemApi.CommonTools
                 id = QueryWithTransaction(conn, sql, ObjectToParm(conition, "Con_").Union(
                                                      ObjectToParm(newData, "Col_")).ToDictionary(i => i.Key, i => i.Value)
                     , TransactionResultType.EffectNum);
+            }
+
+            return id;
+        }
+
+        public static int Execute(string sqlStr, Dictionary<string, object> sqlParmDic = null, TransactionResultType resultType = TransactionResultType.EffectNum)
+        {
+            int id = -1;
+            using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
+            {
+                SqlCommand sql = new SqlCommand(sqlStr);
+                id = QueryWithTransaction(conn, sql, sqlParmDic, resultType);
             }
 
             return id;
@@ -389,7 +414,7 @@ namespace IssueTrackingSystemApi.CommonTools
         }
 
         //加入Transaction 並指定回傳的資料(預設影響個數)
-        public static int QueryWithTransaction(SqlConnection connection, SqlCommand command, Dictionary<string, object> sqlParmDic, TransactionResultType resultType = TransactionResultType.EffectNum)
+        private static int QueryWithTransaction(SqlConnection connection, SqlCommand command, Dictionary<string, object> sqlParmDic, TransactionResultType resultType = TransactionResultType.EffectNum)
         {
             int result = 0;
 

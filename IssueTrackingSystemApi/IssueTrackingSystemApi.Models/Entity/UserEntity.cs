@@ -4,6 +4,9 @@ using System.Text;
 
 namespace IssueTrackingSystemApi.Models.Entity
 {
+    /// <summary>
+    /// 用戶帳號資料表
+    /// </summary>
     [DB(TableName = "User")]
     public class UserEntity
     {
