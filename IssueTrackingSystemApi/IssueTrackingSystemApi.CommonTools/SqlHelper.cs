@@ -15,10 +15,12 @@ namespace IssueTrackingSystemApi.CommonTools
     {
         private static string ConnectString = @"Data Source=REX-LIN\COURSE_SQL;Initial Catalog=ITS;User ID=sqlLogin;Password=password1123";
 
-        public static IEnumerable<T> Query<T>(T conition) where T : new()
+        private static string GetDataBaseConnectString { get => ConnectString; }
+
+        public static IEnumerable<T> Select<T>(T conition) where T : new()
         {
             IEnumerable<T> result;
-            using (SqlConnection conn = new SqlConnection(ConnectString))
+            using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
             {
                 SqlCommand sql = new SqlCommand(ObjectToString(conition, SqlAction.SELECT));
                 var dataTable = QueryWithNolock(conn, sql, ObjectToParm(conition));
@@ -28,59 +30,128 @@ namespace IssueTrackingSystemApi.CommonTools
             return result;
         }
 
+        public static int Insert<T>(T insertData) where T : new()
+        {
+            int id = -1;
+            using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
+            {
+                SqlCommand sql = new SqlCommand(ObjectToString(insertData, SqlAction.INSERT));
+                id = QueryWithTransaction(conn, sql, ObjectToParm(insertData), TransactionResultType.EffectId);
+            }
+
+            return id;
+        }
+
         public enum SqlAction
         {
             SELECT,
-
+            INSERT
         }
         public static string ObjectToString<T>(T conition, SqlAction action = SqlAction.SELECT)
+        {
+
+            switch (action)
+            {
+                case SqlAction.SELECT:
+                    return SelectSql(conition);
+                case SqlAction.INSERT:
+                    return InsertSql(conition);
+                default:
+                    return null;
+            }
+            return null;
+        }
+
+        #region SQL
+
+        /// <summary>
+        /// 取得SELECT語法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="conition"></param>
+        /// <returns></returns>
+        private static string SelectSql<T>(T conition)
         {
             Type type = typeof(T);
             StringBuilder sql = new StringBuilder("");
 
             string tableName = (type.GetCustomAttributes().FirstOrDefault(i => i is DBAttribute) as DBAttribute).TableName;
 
-            switch (action)
+            PropertyInfo[] properties = type.GetProperties();
+
+            List<string> columnList = new List<string>();
+            List<string> conitionList = new List<string>();
+
+            foreach (PropertyInfo pi in properties) // [DBAttribute.ColumnName] AS [PropertyName]
             {
-                case SqlAction.SELECT:
-                    PropertyInfo[] properties = type.GetProperties();
+                DBAttribute attribute = GetColumnName(pi);
+                columnList.Add($"[{attribute.ColumnName}] AS [{pi.Name}]");
 
-                    List<string> columnList = new List<string>();
-                    List<string> conitionList = new List<string>();
-
-                    foreach (PropertyInfo pi in properties) // [DBAttribute.ColumnName] AS [PropertyName]
+                if (pi.GetValue(conition) != null)
+                {
+                    string operation = "";
+                    if (conitionList.Any())
                     {
-                        DBAttribute attribute = GetColumnName(pi);
-                        columnList.Add($"[{attribute.ColumnName}] AS [{pi.Name}]");
-
-                        if(pi.GetValue(conition) != null)
-                        {
-                            string operation = "";
-                            if (conitionList.Any())
-                            {
-                                operation = attribute.Operation.ToString();
-                            }
-                            conitionList.Add($"{operation} [{attribute.ColumnName}] = @{pi.Name} ");
-                        }
+                        operation = attribute.Operation.ToString();
                     }
-                    // Column
-                    sql.AppendLine($"SELECT {string.Join(", ", columnList)} ");
-                    // From
-                    sql.AppendLine($"FROM [{tableName}] ");
-                    // Where
-                    if (!conitionList.Any())
-                    {
-                        return sql.ToString();
-                    }
-                    sql.AppendLine($"WHERE {string.Join("", conitionList)} ");
-                    return sql.ToString();
-
-                    break;
-                default:
-                    return null;
+                    conitionList.Add($"{operation} [{attribute.ColumnName}] = @{pi.Name} ");
+                }
             }
-            return null;
+            // Column
+            sql.AppendLine($"SELECT {string.Join(", ", columnList)} ");
+            // From
+            sql.AppendLine($"FROM [{tableName}] ");
+            // Where
+            if (!conitionList.Any())
+            {
+                return sql.ToString();
+            }
+            sql.AppendLine($"WHERE {string.Join("", conitionList)} ");
+            return sql.ToString();
         }
+
+        /// <summary>
+        /// 取得Insert語法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="conition"></param>
+        /// <returns></returns>
+        private static string InsertSql<T>(T conition)
+        {
+            Type type = typeof(T);
+            StringBuilder sql = new StringBuilder("");
+
+            string tableName = (type.GetCustomAttributes().FirstOrDefault(i => i is DBAttribute) as DBAttribute).TableName;
+
+            PropertyInfo[] properties = type.GetProperties();
+
+            List<string> columnList = new List<string>();
+            List<string> conitionList = new List<string>();
+
+            foreach (PropertyInfo pi in properties) // [DBAttribute.ColumnName] AS [PropertyName]
+            {
+                DBAttribute attribute = GetColumnName(pi);
+                if (pi.GetValue(conition) != null || attribute.Nullable)
+                {
+                    columnList.Add($"[{attribute.ColumnName}]");
+
+                    conitionList.Add($"@{pi.Name}");
+                }
+            }
+            // 沒資料不用Insert
+            if (!columnList.Any())
+            {
+                return null;
+            }
+
+            // Insert
+            sql.AppendLine($"INSERT INTO [{tableName}] ({string.Join(", ", columnList)}) ");
+            // Value
+            sql.AppendLine($"VALUES ({string.Join(", ", conitionList)})");
+            return sql.ToString();
+        }
+
+        #endregion
 
         public static Dictionary<string, object> ObjectToParm<T>(T conition)
         {
@@ -90,7 +161,13 @@ namespace IssueTrackingSystemApi.CommonTools
             foreach (PropertyInfo pi in properties)
             {
                 DBAttribute attribute = GetColumnName(pi);
-                result.Add(pi.Name, pi.GetValue(conition));
+                if(pi.GetValue(conition) == null)
+                {
+                    if (!attribute.Nullable) { continue; }
+                    result.Add($"@{pi.Name}", System.DBNull.Value);
+                    continue;
+                }
+                result.Add($"@{pi.Name}", pi.GetValue(conition));
             }
             return result;
         }
@@ -165,7 +242,7 @@ namespace IssueTrackingSystemApi.CommonTools
         }
 
         //加入Transaction 並指定回傳的資料(預設影響個數)
-        public int QueryWithTransaction(SqlConnection connection, SqlCommand command, Dictionary<string, object> sqlParmDic, TransactionResultType resultType = TransactionResultType.EffectNum)
+        public static int QueryWithTransaction(SqlConnection connection, SqlCommand command, Dictionary<string, object> sqlParmDic, TransactionResultType resultType = TransactionResultType.EffectNum)
         {
             int result = 0;
 
@@ -174,6 +251,14 @@ namespace IssueTrackingSystemApi.CommonTools
             foreach (KeyValuePair<string, object> item in sqlParmDic)
             {
                 command.Parameters.AddWithValue(item.Key, item.Value);
+            }
+
+            SqlParameter pmtLogId = new SqlParameter("@LogId", SqlDbType.Int);
+            if (resultType == TransactionResultType.EffectId)
+            {
+                command.CommandText += " SET @LogId = SCOPE_IDENTITY() ";
+                pmtLogId.Direction = ParameterDirection.Output;
+                command.Parameters.Add(pmtLogId);
             }
 
             connection.Open();
@@ -187,7 +272,8 @@ namespace IssueTrackingSystemApi.CommonTools
                         result = command.ExecuteNonQuery();
                         break;
                     case TransactionResultType.EffectId:
-                        result = Convert.ToInt32(command.ExecuteScalar());
+                        command.ExecuteScalar();
+                        result = (int)pmtLogId.Value;
                         break;
                 }
                 tran.Commit();
