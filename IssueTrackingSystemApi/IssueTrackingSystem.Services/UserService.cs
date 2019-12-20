@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using IssueTrackingSystemApi.Models;
-
+using IssueTrackingSystemApi.Models.View;
 
 namespace IssueTrackingSystemApi.Services
 {
@@ -18,7 +18,7 @@ namespace IssueTrackingSystemApi.Services
             throw new NotImplementedException();
         }
 
-        public int UpdateUsers(int id)
+        public int UpdateUsers(User user)
         {
             throw new NotImplementedException();
         }
@@ -26,6 +26,12 @@ namespace IssueTrackingSystemApi.Services
         public int CreateUser(User user)
         {
             throw new NotImplementedException();
+        }
+
+        public bool ValidateUser(LoginInfo loginInfo)
+        {
+            //TODO: 驗證待寫
+            return loginInfo.account == "chris" && loginInfo.password == "1234";
         }
     }
 }

@@ -11,21 +11,40 @@ namespace IssueTrackingSystemApi.Services
         {
         }
 
+        /// <summary>
+        /// Create issue
+        /// </summary>
+        /// <param name="issue"></param>
+        /// <returns></returns>
         public int CreateIssue(Issue issue)
         {
             throw new NotImplementedException();
         }
 
-        public Issue GetIssue(int id)
+        /// <summary>
+        /// Get a specific issue
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Issue GetIssueById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<Issue> Issues()
+        /// <summary>
+        /// Get all issues
+        /// </summary>
+        /// <returns></returns>
+        public List<Issue> GetAllIssues()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Create issue
+        /// </summary>
+        /// <param name="issue"></param>
+        /// <returns></returns>
         public int UpdateIssue(Issue issue)
         {
             throw new NotImplementedException();

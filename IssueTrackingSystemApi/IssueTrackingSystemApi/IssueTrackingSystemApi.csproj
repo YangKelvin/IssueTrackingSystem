@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IssueTrackingSystem.Services\IssueTrackingSystemApi.Services.csproj" />
     <ProjectReference Include="..\IssueTrackingSystemApi.CommonTools\IssueTrackingSystemApi.CommonTools.csproj" />
   </ItemGroup>
 
