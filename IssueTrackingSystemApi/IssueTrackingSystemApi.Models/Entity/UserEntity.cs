@@ -25,7 +25,7 @@ namespace IssueTrackingSystemApi.Models.Entity
         [DB(ColumnName = "Name")]
         public string Name { get; set; }
 
-        [DB(ColumnName = "LineId", Nullable = true)]
+        [DB(ColumnName = "LineId")]
         public string LineId { get; set; }
     }
 }

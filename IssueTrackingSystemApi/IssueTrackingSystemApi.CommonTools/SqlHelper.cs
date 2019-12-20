@@ -17,12 +17,12 @@ namespace IssueTrackingSystemApi.CommonTools
 
         private static string GetDataBaseConnectString { get => ConnectString; }
 
-        public static IEnumerable<T> Select<T>(T conition) where T : new()
+        public static IEnumerable<T> Select<T>(T conition) where T : class, new()
         {
             IEnumerable<T> result;
             using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
             {
-                SqlCommand sql = new SqlCommand(ObjectToString(conition, SqlAction.SELECT));
+                SqlCommand sql = new SqlCommand(ObjectToSql(SqlAction.SELECT, conition: conition));
                 var dataTable = QueryWithNolock(conn, sql, ObjectToParm(conition));
                 result = GetItemListFromDataTable<T>(dataTable);
             }
@@ -30,13 +30,39 @@ namespace IssueTrackingSystemApi.CommonTools
             return result;
         }
 
-        public static int Insert<T>(T insertData) where T : new()
+        public static int Insert<T>(T insertData) where T : class, new()
         {
             int id = -1;
             using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
             {
-                SqlCommand sql = new SqlCommand(ObjectToString(insertData, SqlAction.INSERT));
+                SqlCommand sql = new SqlCommand(ObjectToSql(SqlAction.INSERT, newData: insertData));
                 id = QueryWithTransaction(conn, sql, ObjectToParm(insertData), TransactionResultType.EffectId);
+            }
+
+            return id;
+        }
+
+        public static int Delete<T>(T conition) where T : class, new()
+        {
+            int id = -1;
+            using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
+            {
+                SqlCommand sql = new SqlCommand(ObjectToSql(SqlAction.DELETE, conition: conition));
+                id = QueryWithTransaction(conn, sql, ObjectToParm(conition), TransactionResultType.EffectNum);
+            }
+
+            return id;
+        }
+
+        public static int Update<T>(T conition, T newData) where T : class, new()
+        {
+            int id = -1;
+            using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
+            {
+                SqlCommand sql = new SqlCommand(ObjectToSql(SqlAction.UPDATE, conition: conition, newData: newData));
+                id = QueryWithTransaction(conn, sql, ObjectToParm(conition, "Con_").Union(
+                                                     ObjectToParm(newData, "Col_")).ToDictionary(i => i.Key, i => i.Value)
+                    , TransactionResultType.EffectNum);
             }
 
             return id;
@@ -45,17 +71,25 @@ namespace IssueTrackingSystemApi.CommonTools
         public enum SqlAction
         {
             SELECT,
-            INSERT
+            INSERT,
+            DELETE,
+            UPDATE
         }
-        public static string ObjectToString<T>(T conition, SqlAction action = SqlAction.SELECT)
+        public static string ObjectToSql<T>(SqlAction action = SqlAction.SELECT, T conition = null , T newData = null) where T: class
         {
+            if (conition is null && newData is null)
+                return null;
 
             switch (action)
             {
                 case SqlAction.SELECT:
                     return SelectSql(conition);
                 case SqlAction.INSERT:
-                    return InsertSql(conition);
+                    return InsertSql(newData);
+                case SqlAction.DELETE:
+                    return DeleteSql(conition);
+                case SqlAction.UPDATE:
+                    return UpdateSql(conition, newData);
                 default:
                     return null;
             }
@@ -87,7 +121,7 @@ namespace IssueTrackingSystemApi.CommonTools
                 DBAttribute attribute = GetColumnName(pi);
                 columnList.Add($"[{attribute.ColumnName}] AS [{pi.Name}]");
 
-                if (pi.GetValue(conition) != null)
+                if (pi.GetValue(conition) != null || attribute.Nullable)
                 {
                     string operation = "";
                     if (conitionList.Any())
@@ -114,9 +148,9 @@ namespace IssueTrackingSystemApi.CommonTools
         /// 取得Insert語法
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="conition"></param>
+        /// <param name="newData"></param>
         /// <returns></returns>
-        private static string InsertSql<T>(T conition)
+        private static string InsertSql<T>(T newData)
         {
             Type type = typeof(T);
             StringBuilder sql = new StringBuilder("");
@@ -131,7 +165,7 @@ namespace IssueTrackingSystemApi.CommonTools
             foreach (PropertyInfo pi in properties) // [DBAttribute.ColumnName] AS [PropertyName]
             {
                 DBAttribute attribute = GetColumnName(pi);
-                if (pi.GetValue(conition) != null || attribute.Nullable)
+                if (pi.GetValue(newData) != null || attribute.Nullable)
                 {
                     columnList.Add($"[{attribute.ColumnName}]");
 
@@ -151,9 +185,122 @@ namespace IssueTrackingSystemApi.CommonTools
             return sql.ToString();
         }
 
+        /// <summary>
+        /// 取得Delete語法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="conition"></param>
+        /// <returns></returns>
+        private static string DeleteSql<T>(T conition)
+        {
+            Type type = typeof(T);
+            StringBuilder sql = new StringBuilder("");
+
+            string tableName = (type.GetCustomAttributes().FirstOrDefault(i => i is DBAttribute) as DBAttribute).TableName;
+
+            PropertyInfo[] properties = type.GetProperties();
+
+            List<string> conitionList = new List<string>();
+
+            foreach (PropertyInfo pi in properties) // [DBAttribute.ColumnName] AS [PropertyName]
+            {
+                DBAttribute attribute = GetColumnName(pi);
+
+                if (pi.GetValue(conition) != null || attribute.Nullable)
+                {
+                    string operation = "";
+                    if (conitionList.Any())
+                    {
+                        operation = attribute.Operation.ToString();
+                    }
+                    conitionList.Add($"{operation} [{attribute.ColumnName}] = @{pi.Name} ");
+                }
+            }
+            // Column
+            sql.AppendLine($"DELETE [{tableName}] ");
+            // Where
+            if (!conitionList.Any())
+            {
+                if((type.GetCustomAttributes().FirstOrDefault(i => i is DBAttribute) as DBAttribute).TableDeleteAble)
+                {
+                    return sql.ToString();
+                }
+                return null;
+            }
+            sql.AppendLine($"WHERE {string.Join("", conitionList)} ");
+            return sql.ToString();
+        }
+        
+        /// <summary>
+        /// 取得Updata語法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="conition"></param>
+        /// <param name="newData"></param>
+        /// <returns></returns>
+        private static string UpdateSql<T>(T conition, T newData)
+        {
+            Type type = typeof(T);
+            StringBuilder sql = new StringBuilder("");
+
+            string tableName = (type.GetCustomAttributes().FirstOrDefault(i => i is DBAttribute) as DBAttribute).TableName;
+
+            PropertyInfo[] properties = type.GetProperties();
+
+            List<string> columnList = new List<string>();
+            List<string> conitionList = new List<string>();
+
+            //columnList
+            foreach (PropertyInfo pi in properties) // [DBAttribute.ColumnName] AS [PropertyName]
+            {
+                DBAttribute attribute = GetColumnName(pi);
+
+                if (pi.GetValue(newData) != null || attribute.Nullable)
+                {
+                    columnList.Add($"[{attribute.ColumnName}] = @Col_{pi.Name} ");
+                }
+            }
+            //conitionList
+            foreach (PropertyInfo pi in properties) // [DBAttribute.ColumnName] AS [PropertyName]
+            {
+                DBAttribute attribute = GetColumnName(pi);
+
+                if (pi.GetValue(conition) != null || attribute.Nullable)
+                {
+                    string operation = "";
+                    if (conitionList.Any())
+                    {
+                        operation = attribute.Operation.ToString();
+                    }
+                    conitionList.Add($"{operation} [{attribute.ColumnName}] = @Con_{pi.Name} ");
+                }
+            }
+            // Column
+            sql.AppendLine($"UPDATE [{tableName}] ");
+            // SET
+            if (!columnList.Any())
+            {
+                return null;
+            }
+            sql.AppendLine($"SET {string.Join(", ", columnList)} ");
+            // Where
+            if (!conitionList.Any())
+            {
+                return sql.ToString();
+            }
+            sql.AppendLine($"WHERE {string.Join("", conitionList)} ");
+            return sql.ToString();
+        }
         #endregion
 
-        public static Dictionary<string, object> ObjectToParm<T>(T conition)
+        /// <summary>
+        /// 把class根據標籤轉成含有前綴的字典
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="conition"></param>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
+        public static Dictionary<string, object> ObjectToParm<T>(T conition, string prefix = "")
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
 
@@ -164,10 +311,10 @@ namespace IssueTrackingSystemApi.CommonTools
                 if(pi.GetValue(conition) == null)
                 {
                     if (!attribute.Nullable) { continue; }
-                    result.Add($"@{pi.Name}", System.DBNull.Value);
+                    result.Add($"@{prefix}{pi.Name}", System.DBNull.Value);
                     continue;
                 }
-                result.Add($"@{pi.Name}", pi.GetValue(conition));
+                result.Add($"@{prefix}{pi.Name}", pi.GetValue(conition));
             }
             return result;
         }
@@ -250,7 +397,7 @@ namespace IssueTrackingSystemApi.CommonTools
 
             foreach (KeyValuePair<string, object> item in sqlParmDic)
             {
-                command.Parameters.AddWithValue(item.Key, item.Value);
+                command.Parameters.AddWithValue(item.Key, item.Value ?? DBNull.Value);
             }
 
             SqlParameter pmtLogId = new SqlParameter("@LogId", SqlDbType.Int);
@@ -278,7 +425,7 @@ namespace IssueTrackingSystemApi.CommonTools
                 }
                 tran.Commit();
             }
-            catch
+            catch(Exception e)
             {
                 tran.Rollback();
             }
