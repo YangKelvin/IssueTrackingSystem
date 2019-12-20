@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace IssueTrackingSystemApi.Tests
 {
-    public class Tests
+    public class SqlHelperTest
     {
         [SetUp]
         public void Setup()
@@ -13,7 +13,7 @@ namespace IssueTrackingSystemApi.Tests
         }
 
         [Test]
-        public void SqlHelperSelectTest()
+        public void SelectTest()
         {
             IEnumerable<UserEntity> x;
             x = SqlHelper.Select<UserEntity>(new UserEntity());
@@ -26,20 +26,49 @@ namespace IssueTrackingSystemApi.Tests
         }
         
         [Test]
-        public void SqlHelperInsertTest()
+        public void InsertTest()
         {
             int x = 0;
             x = SqlHelper.Insert(new UserEntity()
             {
                 Account = "Test1",
                 Password = "noPassword",
-                EMail = "test@gamil.com",
+                EMail = "test2@gamil.com",
                 CharactorId = 1,
                 Name = "TestName",
             });
 
+            Assert.IsTrue(true);
+        }
+    
+        [Test]
+        public void DeleteTest()
+        {
+            int x = 0;
+            x = SqlHelper.Delete(new UserEntity()
+            {
+                Account = "Test1",
+                EMail = "test2@gamil.com"
+            });
+
+            Assert.IsTrue(true);
+
+        }
+
+        [Test]
+        public void ModifyTest()
+        {
+            int x = 0;
+            x = SqlHelper.Update(new UserEntity()
+            {
+                Id = 15
+            }, new UserEntity()
+            {
+                Password = "******"
+            });
 
             Assert.IsTrue(true);
         }
+
     }
 }
