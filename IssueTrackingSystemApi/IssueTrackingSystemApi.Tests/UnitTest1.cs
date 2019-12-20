@@ -13,16 +13,33 @@ namespace IssueTrackingSystemApi.Tests
         }
 
         [Test]
-        public void Test1()
+        public void SqlHelperSelectTest()
         {
             IEnumerable<UserEntity> x;
-            x = SqlHelper.Query<UserEntity>(new UserEntity());
+            x = SqlHelper.Select<UserEntity>(new UserEntity());
 
-            x = SqlHelper.Query<UserEntity>(new UserEntity() { _Account = "User02" });
+            x = SqlHelper.Select<UserEntity>(new UserEntity() { Account = "User02" });
 
-            x = SqlHelper.Query<UserEntity>(new UserEntity() { CharactorId = 1, Name = "Rex" });
+            x = SqlHelper.Select<UserEntity>(new UserEntity() { CharactorId = 1, Name = "Rex" });
 
-            Assert.Pass();
+            Assert.IsTrue(true);
+        }
+        
+        [Test]
+        public void SqlHelperInsertTest()
+        {
+            int x = 0;
+            x = SqlHelper.Insert(new UserEntity()
+            {
+                Account = "Test1",
+                Password = "noPassword",
+                EMail = "test@gamil.com",
+                CharactorId = 1,
+                Name = "TestName",
+            });
+
+
+            Assert.IsTrue(true);
         }
     }
 }
