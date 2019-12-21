@@ -17,6 +17,12 @@ namespace IssueTrackingSystemApi.CommonTools
 
         private static string GetDataBaseConnectString { get => ConnectString; }
 
+        /// <summary>
+        /// 取得Entity Model 查詢結果
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="conition">查詢條建</param>
+        /// <returns></returns>
         public static IEnumerable<T> Select<T>(T conition) where T : class, new()
         {
             if (conition == null) conition = new T();
@@ -32,6 +38,13 @@ namespace IssueTrackingSystemApi.CommonTools
             return result;
         }
 
+        /// <summary>
+        /// 取得sql 查詢結果
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sqlStr">sql語法</param>
+        /// <param name="sqlParmDic">參數字典</param>
+        /// <returns></returns>
         public static IEnumerable<T> Select<T>(string sqlStr, Dictionary<string, object> sqlParmDic = null) where T : class, new()
         {
             IEnumerable<T> result;
@@ -45,6 +58,12 @@ namespace IssueTrackingSystemApi.CommonTools
             return result;
         }
 
+        /// <summary>
+        /// 新增Entity Model資料
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="insertData">新資料</param>
+        /// <returns></returns>
         public static int Insert<T>(T insertData) where T : class, new()
         {
             int id = -1;
@@ -57,6 +76,12 @@ namespace IssueTrackingSystemApi.CommonTools
             return id;
         }
 
+        /// <summary>
+        /// 刪除資料
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="conition">刪除條件</param>
+        /// <returns></returns>
         public static int Delete<T>(T conition) where T : class, new()
         {
             int id = -1;
@@ -69,6 +94,13 @@ namespace IssueTrackingSystemApi.CommonTools
             return id;
         }
 
+        /// <summary>
+        /// 更新資料
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="conition">更新的地方</param>
+        /// <param name="newData">更新成什麼資料</param>
+        /// <returns></returns>
         public static int Update<T>(T conition, T newData) where T : class, new()
         {
             int id = -1;
@@ -124,7 +156,6 @@ namespace IssueTrackingSystemApi.CommonTools
         }
 
         #region SQL
-
         /// <summary>
         /// 取得SELECT語法
         /// </summary>
@@ -365,7 +396,6 @@ namespace IssueTrackingSystemApi.CommonTools
             }
             return null;
         }
-
 
         //把從資料庫得到的DataTable 轉換成class List
         private static IEnumerable<T> GetItemListFromDataTable<T>(DataTable dataTable) where T : new()
