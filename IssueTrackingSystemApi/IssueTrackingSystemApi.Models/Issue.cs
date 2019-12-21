@@ -9,7 +9,7 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// 編號
         /// </summary>
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         /// <summary>
         /// 單號
@@ -74,27 +74,27 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// 種類
         /// </summary>
-        public int Kind { get; set; }
+        public int? Kind { get; set; }
 
         /// <summary>
         /// 嚴重性
         /// </summary>
-        public int Serverity { get; set; }
+        public int? Serverity { get; set; }
 
         /// <summary>
         /// 狀態
         /// </summary>
-        public int Status { get; set; }
+        public int? Status { get; set; }
 
         /// <summary>
         /// 緊急性
         /// </summary>
-        public int Urgency { get; set; }
+        public int? Urgency { get; set; }
 
         /// <summary>
         /// 建立時間
         /// </summary>
-        public DateTime CreateTime { get; set; }
+        public DateTime? CreateTime { get; set; }
 
         /// <summary>
         /// 建立人
@@ -104,7 +104,7 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// 最後修改時間
         /// </summary>
-        public DateTime ModifyTime { get; set; }
+        public DateTime? ModifyTime { get; set; }
 
         /// <summary>
         /// 最後修改人

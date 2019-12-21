@@ -11,12 +11,12 @@ namespace IssueTrackingSystemApi.Models.Entity
     public class UserProjectRelationEntity
     {
         [DB(ColumnName = "UserId")]
-        public int UserId { get; set; }
+        public int?UserId { get; set; }
         
         [DB(ColumnName = "ProjectId")]
-        public int ProjectId { get; set; }
+        public int?ProjectId { get; set; }
 
         [DB(ColumnName = "ProjectCharactorId")]
-        public int ProjectCharactorId { get; set; }
+        public int?ProjectCharactorId { get; set; }
     }
 }

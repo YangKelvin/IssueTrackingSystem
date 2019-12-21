@@ -14,19 +14,19 @@ namespace IssueTrackingSystemApi.Models.Entity
         /// 記錄流水號
         /// </summary>
         [DB(ColumnName = "Id")]
-        public int Id { get; set; }
+        public int?Id { get; set; }
 
         /// <summary>
         /// 問題流水號
         /// </summary>
         [DB(ColumnName = "IssueId")]
-        public int IssueId { get; set; }
+        public int?IssueId { get; set; }
 
         /// <summary>
         /// 更改使用者的Id
         /// </summary>
         [DB(ColumnName = "UserId")]
-        public int UserId { get; set; }
+        public int?UserId { get; set; }
 
         /// <summary>
         /// 描述
