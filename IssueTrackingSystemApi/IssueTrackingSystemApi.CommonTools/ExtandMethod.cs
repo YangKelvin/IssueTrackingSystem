@@ -10,6 +10,13 @@ namespace IssueTrackingSystemApi.CommonTools
 {
     public static class ExtandMethod
     {
+        /// <summary>
+        /// class轉換
+        /// </summary>
+        /// <typeparam name="T">轉換後的class</typeparam>
+        /// <param name="source">資料來源</param>
+        /// <param name="action">對轉換後class額外要做的事</param>
+        /// <returns></returns>
         public static T ObjectConvert<T>(this object source, Action<T> action = null) where T : class, new()
         {
             if (source == null) return null;
