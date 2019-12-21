@@ -23,6 +23,11 @@ namespace IssueTrackingSystemApi.Models.Entity
         public ConitionOperation Operation { get; set; } = ConitionOperation.AND;
 
         /// <summary>
+        /// 是否為自動產生
+        /// </summary>
+        public bool AutoGenerate { get; set; }
+
+        /// <summary>
         ///  可以是NULL
         /// </summary>
         public bool Nullable { get; set; }

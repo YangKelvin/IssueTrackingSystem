@@ -19,6 +19,8 @@ namespace IssueTrackingSystemApi.CommonTools
 
         public static IEnumerable<T> Select<T>(T conition) where T : class, new()
         {
+            if (conition == null) conition = new T();
+
             IEnumerable<T> result;
             using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
             {
@@ -190,6 +192,9 @@ namespace IssueTrackingSystemApi.CommonTools
             foreach (PropertyInfo pi in properties) // [DBAttribute.ColumnName] AS [PropertyName]
             {
                 DBAttribute attribute = GetColumnName(pi);
+
+                if (attribute.AutoGenerate) continue; // 自動產生的值不要動
+
                 if (pi.GetValue(newData) != null || attribute.Nullable)
                 {
                     columnList.Add($"[{attribute.ColumnName}]");
@@ -279,6 +284,8 @@ namespace IssueTrackingSystemApi.CommonTools
             foreach (PropertyInfo pi in properties) // [DBAttribute.ColumnName] AS [PropertyName]
             {
                 DBAttribute attribute = GetColumnName(pi);
+
+                if (attribute.AutoGenerate) continue; // 自動產生的值不要動
 
                 if (pi.GetValue(newData) != null || attribute.Nullable)
                 {

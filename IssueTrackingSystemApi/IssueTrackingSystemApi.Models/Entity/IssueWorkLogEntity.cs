@@ -14,13 +14,13 @@ namespace IssueTrackingSystemApi.Models.Entity
         /// 問題流水號
         /// </summary>
         [DB(ColumnName = "IssueId")]
-        public int IssueId { get; set; }
+        public int?IssueId { get; set; }
 
         /// <summary>
         /// 記錄流水號
         /// </summary>
-        [DB(ColumnName = "LogId")]
-        public int LogId { get; set; }
+        [DB(ColumnName = "LogId", AutoGenerate = true)]
+        public int?LogId { get; set; }
 
         /// <summary>
         /// 花費時間 (小時)
@@ -50,7 +50,7 @@ namespace IssueTrackingSystemApi.Models.Entity
         /// 建立人 Id
         /// </summary>
         [DB(ColumnName = "CreateUesr")]
-        public int CreateUesr { get; set; }
+        public int?CreateUesr { get; set; }
 
         /// <summary>
         /// 最後修改問題時間
@@ -62,6 +62,6 @@ namespace IssueTrackingSystemApi.Models.Entity
         /// 最後修改人 Id
         /// </summary>
         [DB(ColumnName = "ModifyUser")]
-        public int ModifyUser { get; set; }
+        public int?ModifyUser { get; set; }
     }
 }

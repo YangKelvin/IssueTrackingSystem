@@ -10,8 +10,8 @@ namespace IssueTrackingSystemApi.Models.Entity
     [DB(TableName = "Charactor")]
     public class CharactorEntity
     {
-        [DB(ColumnName = "Id")]
-        public int Id { get; set; }
+        [DB(ColumnName = "Id", AutoGenerate = true)]
+        public int?Id { get; set; }
 
         [DB(ColumnName = "Name")]
         public string Name { get; set; }

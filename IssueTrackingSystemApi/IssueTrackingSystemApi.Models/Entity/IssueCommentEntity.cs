@@ -14,19 +14,19 @@ namespace IssueTrackingSystemApi.Models.Entity
         /// 問題流水號
         /// </summary>
         [DB(ColumnName = "IssueId")]
-        public int IssueId { get; set; }
+        public int?IssueId { get; set; }
 
         /// <summary>
         /// 留言流水號
         /// </summary>
         [DB(ColumnName = "CommentId")]
-        public int CommentId { get; set; }
+        public int?CommentId { get; set; }
 
         /// <summary>
         /// 留言人
         /// </summary>
         [DB(ColumnName = "CommenterId")]
-        public int CommenterId { get; set; }
+        public int?CommenterId { get; set; }
 
         /// <summary>
         /// 留言內容
@@ -44,7 +44,7 @@ namespace IssueTrackingSystemApi.Models.Entity
         /// 留言人 Id
         /// </summary>
         [DB(ColumnName = "CreateUesr")]
-        public int CreateUesr { get; set; }
+        public int?CreateUesr { get; set; }
 
         /// <summary>
         /// 最後修改留言時間
@@ -56,7 +56,7 @@ namespace IssueTrackingSystemApi.Models.Entity
         /// 最後修改人 Id
         /// </summary>
         [DB(ColumnName = "ModifyUser")]
-        public int ModifyUser { get; set; }
+        public int?ModifyUser { get; set; }
 
     }
 }
