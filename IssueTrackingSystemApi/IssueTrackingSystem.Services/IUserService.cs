@@ -10,10 +10,14 @@ namespace IssueTrackingSystemApi.Services
     {
         User GetUserById(int id);
 
-        int UpdateUsers(User user);
+        int UpdateUser(User user);
 
         int CreateUser(User user);
 
         bool ValidateUser(LoginInfo loginInfo);
+
+        User GetUserByAccount(string account);
+
+        List<User> GetAllUsers();
     }
 }

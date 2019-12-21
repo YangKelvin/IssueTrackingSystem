@@ -46,5 +46,26 @@ namespace IssueTrackingSystemApi.Tests
 
             Assert.Pass();
         }
+
+        [Test]
+        public void UserTest()
+        {
+            IUserService userService = new UserService();
+
+            var user1 = userService.CreateUser(new User()
+            {
+                Account = "acc2",
+                Password = "pwd2",
+                EMail = "email2",
+                Charactor = "2",
+                LineId = "line2",
+                Name = "name2"
+            });
+
+            var user = userService.GetUserByAccount("acc2");
+            
+            Assert.Pass();
+        }
+
     }
 }
