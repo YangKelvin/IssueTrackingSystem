@@ -47,6 +47,21 @@ namespace IssueTrackingSystemApi.Services
         }
 
         /// <summary>
+        /// 透過問題號碼取得問題
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public Issue GetIssueByNumber(string number)
+        {
+            IssueEntity issueEntity = IssueDao.Query(new IssueEntity() { Number = number }).FirstOrDefault();
+            Issue issue = issueEntity.ObjectConvert<Issue>();
+            issue.CreateUser = UserDao.Query(new UserEntity() { Id = issueEntity.CreateUesr }).FirstOrDefault().ObjectConvert<User>();
+            issue.ModifyUser = UserDao.Query(new UserEntity() { Id = issueEntity.ModifyUser }).FirstOrDefault().ObjectConvert<User>();
+
+            return issue;
+        }
+
+        /// <summary>
         /// Get all issues
         /// </summary>
         /// <returns></returns>
