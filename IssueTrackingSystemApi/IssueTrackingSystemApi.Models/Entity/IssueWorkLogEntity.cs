@@ -19,7 +19,7 @@ namespace IssueTrackingSystemApi.Models.Entity
         /// <summary>
         /// 記錄流水號
         /// </summary>
-        [DB(ColumnName = "LogId")]
+        [DB(ColumnName = "LogId", AutoGenerate = true)]
         public int?LogId { get; set; }
 
         /// <summary>

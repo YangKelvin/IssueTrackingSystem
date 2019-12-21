@@ -10,7 +10,7 @@ namespace IssueTrackingSystemApi.Models.Entity
     [DB(TableName = "IssueUrgency")]
     public class IssueUrgencyEntity
     {
-        [DB(ColumnName = "Id")]
+        [DB(ColumnName = "Id", AutoGenerate = true)]
         public int?Id { get; set; }
 
         [DB(ColumnName = "Name")]

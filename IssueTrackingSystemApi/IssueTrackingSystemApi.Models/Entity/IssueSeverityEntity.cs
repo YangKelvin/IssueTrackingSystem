@@ -13,7 +13,7 @@ namespace IssueTrackingSystemApi.Models.Entity
         /// <summary>
         /// 
         /// </summary>
-        [DB(ColumnName = "Id")]
+        [DB(ColumnName = "Id", AutoGenerate = true)]
         public int?Id { get; set; }
 
         /// <summary>
