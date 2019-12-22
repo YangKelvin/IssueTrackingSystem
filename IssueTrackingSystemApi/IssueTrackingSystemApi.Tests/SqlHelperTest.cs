@@ -20,7 +20,7 @@ namespace IssueTrackingSystemApi.Tests
 
             x = SqlHelper.Select<UserEntity>(new UserEntity() { Account = "User02" });
 
-            x = SqlHelper.Select<UserEntity>(new UserEntity() { CharactorId = 1, Name = "Rex" });
+            x = SqlHelper.Select<UserEntity>(new UserEntity() { CharactorId = 1, Name = "Rexp" });
 
             Assert.IsTrue(true);
         }
@@ -29,6 +29,17 @@ namespace IssueTrackingSystemApi.Tests
         public void InsertTest()
         {
             int x = 0;
+            // return 0
+            x = SqlHelper.Insert(new UserEntity()
+            {
+                Account = "Test1______________________Test1______________________Test1______________________Test1______________________Test1______________________",
+                Password = "noPassword",
+                EMail = "test2@gamil.com",
+                CharactorId = 1,
+                Name = "TestName",
+            });
+
+            // return -1
             x = SqlHelper.Insert(new UserEntity()
             {
                 Account = "Test1",
