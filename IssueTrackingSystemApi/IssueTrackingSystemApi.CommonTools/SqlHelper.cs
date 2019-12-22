@@ -487,6 +487,12 @@ namespace IssueTrackingSystemApi.CommonTools
                 }
                 tran.Commit();
             }
+            catch(SqlException sqlException)
+            {
+                tran.Rollback();
+                if (sqlException.Number == 2627) 
+                    result = -1; // 違反 %ls 條件約束 '%.ls'。無法在物件 '%.ls' 中插入重複的索引鍵。
+            }
             catch(Exception e)
             {
                 tran.Rollback();
