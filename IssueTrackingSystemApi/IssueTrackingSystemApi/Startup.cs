@@ -30,6 +30,18 @@ namespace IssueTrackingSystemApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                // CorsPolicy 是自訂的 Policy 名稱
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });
+            });
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(new ProducesAttribute("application/json"));
@@ -83,6 +95,7 @@ namespace IssueTrackingSystemApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("CorsPolicy");
 
             //使用驗證權限的 Middleware
             app.UseAuthentication();

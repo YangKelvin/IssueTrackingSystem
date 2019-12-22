@@ -9,7 +9,7 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// ½s¸¹
         /// </summary>
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         /// <summary>
         /// ±b¤á
