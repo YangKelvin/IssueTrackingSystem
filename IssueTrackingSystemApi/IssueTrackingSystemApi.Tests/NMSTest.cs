@@ -34,7 +34,7 @@ namespace IssueTrackingSystemApi.Tests
             NotificationMessageSubsystem NMS = new NotificationMessageSubsystem();
 
             var x = NMS.SendLineMessage("測試群發功能", new string[] { 
-                "U59ff9c43d3c37fc5ee83b170084fc191", 
+                //"U59ff9c43d3c37fc5ee83b170084fc191", 
                 "U5ef7af71812b69e7f4f10e6400bff3ac" 
             });
 
