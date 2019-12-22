@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using IssueTrackingSystemApi.Models;
 
 namespace IssueTrackingSystemApi.Services
 {
     public class NotificationMessageSubsystem
     {
+        public string LintHostString { get => @"https://mysterious-wave-50057.herokuapp.com/SendIssueNotification/"; }
+
         public bool SendMail(string mailMessage, string[] addressees, string[] carbonCopys = null, Attachment[] attachments = null)
         {
             try
@@ -54,6 +60,39 @@ namespace IssueTrackingSystemApi.Services
                 //MessageBox.Show(this, ex.Message);
                 return false;
             }
+        }
+
+        public string SendLineMessage(string lineMessage, string[] userId)
+        {
+            return PostResponse<LineBotResponse, LineBotMessage>(LintHostString, new LineBotMessage()
+            {
+                Users = userId,
+                Message = lineMessage
+            }).Message;
+        }
+
+        // 泛型：Post請求
+        private Tresult PostResponse<Tresult, TpostData>(string url, TpostData postData) where Tresult : class, new() where TpostData : class, new()
+        {
+            Tresult result = default(Tresult);
+
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(postData));
+            httpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            httpContent.Headers.ContentType.CharSet = "utf-8";
+            using (HttpClient httpClient = new HttpClient())
+            {
+                HttpResponseMessage response = httpClient.PostAsync(url, httpContent).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Task<string> t = response.Content.ReadAsStringAsync();
+                    string s = t.Result;
+                    //Newtonsoft.Json
+                    string json = JsonConvert.DeserializeObject(s).ToString();
+                    result = JsonConvert.DeserializeObject<Tresult>(json);
+                }
+            }
+            return result;
         }
     }
 }
