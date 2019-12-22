@@ -40,7 +40,6 @@ namespace IssueTrackingSystemApi.Services
                     Name = "chris"
                 }
             };
-            throw new NotImplementedException();
         }
 
         /// <summary>
