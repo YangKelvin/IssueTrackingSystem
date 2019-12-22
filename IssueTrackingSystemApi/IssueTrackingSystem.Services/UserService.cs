@@ -41,6 +41,11 @@ namespace IssueTrackingSystemApi.Services
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 新增 User
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public int CreateUser(User user)
         {
             UserEntity userEntity = user.ObjectConvert<UserEntity>();
@@ -60,6 +65,13 @@ namespace IssueTrackingSystemApi.Services
 
             return userEntitys.Select(i => i.ObjectConvert<User>()).ToList();
             
+        }
+
+        public bool IsUserExist(User user)
+        {
+            UserEntity userEntity = UserDao.Query(new UserEntity() { Account = user.Account, Password = user.Password }).FirstOrDefault();
+            
+            return userEntity != null;
         }
     }
 }

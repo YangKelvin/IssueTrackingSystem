@@ -67,5 +67,25 @@ namespace IssueTrackingSystemApi.Tests
             Assert.Pass();
         }
 
+        [Test]
+        public void IsUserExistTest()
+        {
+            IUserService userService = new UserService();
+
+            User userExist = new User()
+            {
+                Account = "acc2",
+                Password = "pwd2"
+            };
+            Assert.IsTrue(userService.IsUserExist(userExist));
+
+            User userNotExist = new User()
+            {
+                Account = "notExist",
+                Password = "notExist"
+            };
+
+            Assert.IsFalse(userService.IsUserExist(userNotExist));
+        }
     }
 }

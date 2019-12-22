@@ -19,5 +19,7 @@ namespace IssueTrackingSystemApi.Services
         User GetUserByAccount(string account);
 
         List<User> GetAllUsers();
+
+        bool IsUserExist(User user);
     }
 }

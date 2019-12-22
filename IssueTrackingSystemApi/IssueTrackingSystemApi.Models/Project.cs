@@ -16,13 +16,18 @@ namespace IssueTrackingSystemApi.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// 持有人
+        /// 管理者
         /// </summary>
-        public User Owner { get; set; }
+        public User Manager { get; set; }
 
         /// <summary>
         /// 開發團隊
         /// </summary>
         public List<User> Developers { get; set; }
+
+        /// <summary>
+        /// 提問者
+        /// </summary>
+        public List<User> General { get; set; }
     }
 }

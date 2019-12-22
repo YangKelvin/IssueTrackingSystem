@@ -7,7 +7,7 @@ namespace IssueTrackingSystemApi.Models.Entity
     /// <summary>
     /// 專案資料表
     /// </summary>
-    [DB(ColumnName = "Project")]
+    [DB(TableName = "Project")]
     public class ProjectEntity
     {
         [DB(ColumnName = "Id", AutoGenerate = true)]
