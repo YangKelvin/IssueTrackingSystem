@@ -45,10 +45,16 @@ namespace IssueTrackingSystemApi.Controllers
             var issuer = _config["Payload:Claims:Issuer"];
             var signKey = _config["Payload:Claims:SignKey"];
             var expires = 30; //min
-            if (_userService.ValidateUser(loginInfo))
+            int? userId = _userService.ValidateUser(loginInfo);
+            if (userId != null)
             {
                 string token = JwtHelpers.GenerateToken(issuer, signKey, loginInfo.account, expires);
-                return Ok(token);
+                Token viewmodel = new Token()
+                {
+                    token = token,
+                    userId = userId
+                };
+                return Ok(viewmodel);
             }
             else
             {
@@ -65,15 +71,36 @@ namespace IssueTrackingSystemApi.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            User project = _userService.GetUserById(id);
+            User user = _userService.GetUserById(id);
 
-            if (project == null)
+            if (user == null)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, "Didn't find any user");
             }
             else
             {
-                return Ok(project);
+                return Ok(user);
+            }
+        }
+
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            List<User> users = _userService.GetAllUsers();
+
+            if (users == null)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Didn't find any user");
+            }
+            else
+            {
+                return Ok(users);
             }
         }
 

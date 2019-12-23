@@ -55,7 +55,7 @@ namespace IssueTrackingSystemApi.Services
             return _userDao.CreatUser(userEntity);
         }
 
-        public bool ValidateUser(LoginInfo loginInfo)
+        public int? ValidateUser(LoginInfo loginInfo)
         {
             User user = new User()
             {
@@ -63,8 +63,7 @@ namespace IssueTrackingSystemApi.Services
                 Password = loginInfo.password
             };
             UserEntity userEntity = _userDao.Query(new UserEntity() { Account = user.Account, Password = user.Password }).FirstOrDefault();
-
-            return userEntity != null;
+            return userEntity == null ? null : userEntity.Id;
         }
 
         public List<User> GetAllUsers()

@@ -16,7 +16,7 @@ namespace IssueTrackingSystemApi.Services
 
         int CreateUser(User user);
 
-        bool ValidateUser(LoginInfo loginInfo);
+        int? ValidateUser(LoginInfo loginInfo);
 
         User GetUserByAccount(string account);
 
