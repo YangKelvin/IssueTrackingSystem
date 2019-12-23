@@ -79,5 +79,10 @@ namespace IssueTrackingSystemApi.Services
         {
             return _issueDao.UpdateIssue(new IssueEntity() { Id = issue.Id }, issue.ObjectConvert<IssueEntity>());
         }
+
+        public int DeleteIssue(int id)
+        {
+            return _issueDao.DeleteIssue(id);
+        }
     }
 }

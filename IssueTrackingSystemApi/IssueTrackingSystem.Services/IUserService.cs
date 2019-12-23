@@ -16,6 +16,8 @@ namespace IssueTrackingSystemApi.Services
 
         int CreateUser(User user);
 
+        int DeleteUser(int id);
+
         int? ValidateUser(LoginInfo loginInfo);
 
         User GetUserByAccount(string account);

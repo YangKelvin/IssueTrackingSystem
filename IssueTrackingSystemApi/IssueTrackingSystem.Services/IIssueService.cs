@@ -16,5 +16,7 @@ namespace IssueTrackingSystemApi.Services
         int CreateIssue(Issue issue);
 
         Issue GetIssueByNumber(string number);
+
+        int DeleteIssue(int id);
     }
 }

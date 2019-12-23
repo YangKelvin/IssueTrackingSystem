@@ -71,7 +71,11 @@ namespace IssueTrackingSystemApi.Services
             List<UserEntity> userEntitys = _userDao.Query().ToList();
 
             return userEntitys.Select(i => i.ObjectConvert<User>()).ToList();
+        }
 
+        public int DeleteUser(int id)
+        {
+            return _userDao.DeleteUser(id);
         }
     }
 }

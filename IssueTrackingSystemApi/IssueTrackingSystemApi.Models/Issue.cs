@@ -34,12 +34,12 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// 受讓者
         /// </summary>
-        public User AssignerId { get; set; }
+        public int? AssigneeId { get; set; }
 
         /// <summary>
         /// 回報者
         /// </summary>
-        public User ReporterId { get; set; }
+        public int? ReporterId { get; set; }
 
         /// <summary>
         /// 預計處理時間

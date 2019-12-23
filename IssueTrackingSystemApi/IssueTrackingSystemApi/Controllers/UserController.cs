@@ -148,5 +148,20 @@ namespace IssueTrackingSystemApi.Controllers
                 return Ok(affectedRows);
             }
         }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            int affectedRows = _userService.DeleteUser(id);
+            if (affectedRows == 0)
+            {
+                return BadRequest("Invalid input, object invalid");
+            }
+            else
+            {
+                return Ok(affectedRows);
+            }
+        }
     }
 }

@@ -75,9 +75,25 @@ namespace IssueTrackingSystemApi.Controllers
 
         [Authorize]
         [HttpPost("{id}")]
-        public IActionResult Update([FromQuery] int id, [FromBody] Issue Issue)
+        public IActionResult Update(int id, [FromBody] Issue issue)
         {
-            int affectedRows = _IssueService.UpdateIssue(Issue);
+            issue.Id = id;
+            int affectedRows = _IssueService.UpdateIssue(issue);
+            if (affectedRows == 0)
+            {
+                return BadRequest("Invalid input, object invalid");
+            }
+            else
+            {
+                return Ok(affectedRows);
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            int affectedRows = _IssueService.DeleteIssue(id);
             if (affectedRows == 0)
             {
                 return BadRequest("Invalid input, object invalid");
