@@ -6,6 +6,7 @@ using IssueTrackingSystemApi.CommonTools;
 using IssueTrackingSystemApi.Dao;
 using IssueTrackingSystemApi.Models;
 using IssueTrackingSystemApi.Models.Entity;
+using IssueTrackingSystemApi.Models.View;
 
 namespace IssueTrackingSystemApi.Services
 {
@@ -24,7 +25,7 @@ namespace IssueTrackingSystemApi.Services
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        public int CreateProject(Project project, User createUser)
+        public int CreateProject(CreateProject project)
         {
             ProjectEntity projectEntity = project.ObjectConvert<ProjectEntity>();
 
@@ -33,7 +34,7 @@ namespace IssueTrackingSystemApi.Services
             int i = ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
             {
                 ProjectId = projectId,
-                UserId = createUser.Id.Value,
+                UserId = project.managerId,
                 ProjectCharactorId = 1  // Manager
             });
 

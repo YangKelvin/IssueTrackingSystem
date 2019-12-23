@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using IssueTrackingSystemApi.Models;
+using IssueTrackingSystemApi.Models.View;
 
 namespace IssueTrackingSystemApi.Services
 {
@@ -9,7 +10,7 @@ namespace IssueTrackingSystemApi.Services
     {
         List<Project> GetAllProjects();
 
-        int CreateProject(Project project, User createUser);
+        int CreateProject(CreateProject project);
 
         Project GetProjectById(int id);
 

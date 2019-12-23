@@ -27,18 +27,18 @@ namespace IssueTrackingSystemApi.Tests
         }
         #endregion
 
-        [Test]
-        public void CreateProjectTest()
-        {
-            IUserService userService = new UserService(new UserDao());
-            var testUser = userService.GetUserByAccount("acc2");
-            Project createProject = new Project()
-            {
-                Manager = testUser,
-                Name = "testProject7"
-            };
+        //[Test]
+        //public void CreateProjectTest()
+        //{
+        //    IUserService userService = new UserService(new UserDao());
+        //    var testUser = userService.GetUserByAccount("acc2");
+        //    Project createProject = new Project()
+        //    {
+        //        Manager = testUser,
+        //        Name = "testProject7"
+        //    };
 
-            ProjectService.CreateProject(createProject, testUser);
-        }
+        //    ProjectService.CreateProject(createProject, testUser);
+        //}
     }
 }

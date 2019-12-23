@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using IssueTrackingSystemApi.Models;
+using IssueTrackingSystemApi.Models.View;
 using IssueTrackingSystemApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -73,9 +74,9 @@ namespace IssueTrackingSystemApi.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        public IActionResult Create([FromBody] Project project)
+        public IActionResult Create([FromBody] CreateProject project)
         {
-            int affectedRows = _projectService.CreateProject(project, new User()); // 虛傳入 User
+            int affectedRows = _projectService.CreateProject(project); // 虛傳入 User
             if (affectedRows == 0)
             {
                 return BadRequest("Invalid input, object invalid");

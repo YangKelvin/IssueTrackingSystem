@@ -68,23 +68,23 @@ namespace IssueTrackingSystemApi.Tests
             Assert.AreEqual("add1", result2.Account);
         }
 
-        [Test]
-        public void ValidateUserTest()
-        {
-            LoginInfo loginSuccess = new LoginInfo()
-            {
-                account = "add1",
-                password = "add1"
-            };
-            Assert.IsTrue(userService.ValidateUser(loginSuccess));
+        //[Test]
+        //public void ValidateUserTest()
+        //{
+        //    LoginInfo loginSuccess = new LoginInfo()
+        //    {
+        //        account = "add1",
+        //        password = "add1"
+        //    };
+        //    Assert.IsTrue(userService.ValidateUser(loginSuccess));
 
-            LoginInfo loginFail = new LoginInfo()
-            {
-                account = "fail",
-                password = "fail"
-            };
-            Assert.IsFalse(userService.ValidateUser(loginFail));
-        }
+        //    LoginInfo loginFail = new LoginInfo()
+        //    {
+        //        account = "fail",
+        //        password = "fail"
+        //    };
+        //    Assert.IsFalse(userService.ValidateUser(loginFail));
+        //}
 
         [Test]
         public void GetAllUserTest()
