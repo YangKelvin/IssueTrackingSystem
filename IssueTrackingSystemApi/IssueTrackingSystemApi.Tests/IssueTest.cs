@@ -16,37 +16,6 @@ namespace IssueTrackingSystemApi.Tests
         [Test]
         public void CreateIssueTest()
         {
-            var testIssues1 = IssueService.CreateIssue(new Issue()
-            {
-                
-                Number = "Test-1",
-                Summary = "test1",
-                Description = "test1",
-                CreateTime = System.DateTime.Now,
-                CreateUser = new User() { Id = 3 }
-            });
-
-            var Test_2Id = IssueService.CreateIssue(new Issue()
-            {
-                Number = "Test_2",
-                CreateTime = System.DateTime.Now,
-                CreateUser = new User() { Id = 10 }
-            });
-
-            int effCount = 0;
-
-            effCount = IssueService.UpdateIssue(new Issue()
-            {
-                Id = Test_2Id,
-                Number = "Test_2(M)",
-                ModifyTime = System.DateTime.Now,
-                ModifyUser = new User() { Id = 13 }
-            });
-
-            var issuses = IssueService.GetAllIssues();
-
-
-            Assert.Pass();
         }
 
     }

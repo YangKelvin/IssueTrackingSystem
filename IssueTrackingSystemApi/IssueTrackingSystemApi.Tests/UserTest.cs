@@ -20,7 +20,7 @@ namespace IssueTrackingSystemApi.Tests
 
             Assert.AreEqual(8, user.Id);
             Assert.AreEqual("acc2", user.Account);
-            Assert.AreEqual("User", user.Charactor);
+            Assert.AreEqual(2, user.CharactorId);
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace IssueTrackingSystemApi.Tests
 
             Assert.AreEqual(8, user.Id);
             Assert.AreEqual("acc2", user.Account);
-            Assert.AreEqual("User", user.Charactor);
+            Assert.AreEqual(2, user.CharactorId);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace IssueTrackingSystemApi.Tests
             User addUserData = new User()
             {
                 Account = "add1",
-                Charactor = "1",
+                CharactorId = 1,
                 EMail = "add email",
                 LineId = "add line",
                 Name = "add name",
@@ -49,7 +49,7 @@ namespace IssueTrackingSystemApi.Tests
 
             var newUser = userService.GetUserByAccount("add1");
             Assert.AreEqual("add1", newUser.Account);
-            Assert.AreEqual("Admin", newUser.Charactor);
+            Assert.AreEqual(1, newUser.CharactorId);
         }
 
         [Test]

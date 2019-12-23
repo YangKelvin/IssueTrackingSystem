@@ -13,20 +13,15 @@ namespace IssueTrackingSystemApi.Services
     public class UserService : IUserService
     {
         private readonly IUserDao _userDao;
-        private List<CharactorEntity> charactorEntities;
         public UserService(IUserDao userDao)
         {
             _userDao = userDao;
-            charactorEntities = _userDao.GetCharactor().ToList();
         }
 
         public User GetUserById(int id)
         {
             UserEntity userEntity = _userDao.Query(new UserEntity() { Id = id }).FirstOrDefault();
-            User user = userEntity.ObjectConvert<User>(i => 
-            {
-                i.Charactor = charactorEntities.Find(x => x.Id.Value == userEntity.CharactorId.Value).Name;
-            });
+            User user = userEntity.ObjectConvert<User>();
 
             return user;
         }
@@ -34,22 +29,14 @@ namespace IssueTrackingSystemApi.Services
         public User GetUserByAccount(string account)
         {
             UserEntity userEntity = _userDao.Query(new UserEntity() { Account = account }).FirstOrDefault();
-            User user = userEntity.ObjectConvert<User>(i =>
-            {
-                i.Charactor = charactorEntities.Find(x => x.Id.Value == userEntity.CharactorId.Value).Name;
-            });
+            User user = userEntity.ObjectConvert<User>();
 
             return user;
         }
 
         public int UpdateUser(User user)
         {
-            int newCharactorId = charactorEntities.Find(x => x.Name == user.Charactor).Id.Value;
-
-            return _userDao.UpdateUser(new UserEntity() { Id = user.Id }, user.ObjectConvert<UserEntity>(i =>
-            {
-                i.CharactorId = newCharactorId;
-            }));
+            return _userDao.UpdateUser(new UserEntity() { Id = user.Id }, user.ObjectConvert<UserEntity>());
         }
 
         /// <summary>
@@ -79,12 +66,8 @@ namespace IssueTrackingSystemApi.Services
         {
             List<UserEntity> userEntitys = _userDao.Query().ToList();
 
-            return userEntitys.Select(i => i.ObjectConvert<User>( u => 
-            {
-                u.Charactor = charactorEntities.Find(x => x.Id.Value == i.CharactorId).Name;
-            })).ToList();
             return userEntitys.Select(i => i.ObjectConvert<User>()).ToList();
-            
+
         }
     }
 }
