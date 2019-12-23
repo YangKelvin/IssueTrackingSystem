@@ -29,12 +29,11 @@ namespace IssueTrackingSystemApi.Services
             ProjectEntity projectEntity = project.ObjectConvert<ProjectEntity>();
 
             var projectId = ProjectDao.CreateProject(projectEntity);
-
             // 新增 UserProjectRelation 的關係
-            ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+            int i = ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
             {
                 ProjectId = projectId,
-                UserId = createUser.Id,
+                UserId = createUser.Id.Value,
                 ProjectCharactorId = 1  // Manager
             });
 

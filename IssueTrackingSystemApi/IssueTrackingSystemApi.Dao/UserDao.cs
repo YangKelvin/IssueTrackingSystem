@@ -27,5 +27,10 @@ namespace IssueTrackingSystemApi.Dao
         {
             return SqlHelper.Select(conition);
         }
+
+        public IEnumerable<CharactorEntity> GetCharactor(CharactorEntity condition = null)
+        {
+            return SqlHelper.Select(condition);
+        }
     }
 }

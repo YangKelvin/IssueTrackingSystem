@@ -8,6 +8,7 @@ namespace IssueTrackingSystemApi.Tests
 {
     public class ServiceTest
     {
+        private readonly IUserDao _userDao;
         [SetUp]
         public void Setup()
         {
@@ -66,27 +67,6 @@ namespace IssueTrackingSystemApi.Tests
             var user = userService.GetUserByAccount("acc2");
             
             Assert.Pass();
-        }
-
-        [Test]
-        public void IsUserExistTest()
-        {
-            IUserService userService = new UserService();
-
-            User userExist = new User()
-            {
-                Account = "acc2",
-                Password = "pwd2"
-            };
-            Assert.IsTrue(userService.IsUserExist(userExist));
-
-            User userNotExist = new User()
-            {
-                Account = "notExist",
-                Password = "notExist"
-            };
-
-            Assert.IsFalse(userService.IsUserExist(userNotExist));
         }
     }
 }

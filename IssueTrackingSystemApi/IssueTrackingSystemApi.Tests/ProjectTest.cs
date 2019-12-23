@@ -10,9 +10,9 @@ namespace IssueTrackingSystemApi.Tests
 {
     public class ProjectTest
     {
+        private readonly IUserDao _userDao;
         private IProjectService ProjectService { get => new ProjectService(); }
         private IProjectDao ProjectDao { get => new ProjectDao(); }
-        private IUserService UserService { get => new UserService(); }
 
         #region Dao
         [Test]
@@ -30,14 +30,15 @@ namespace IssueTrackingSystemApi.Tests
         [Test]
         public void CreateProjectTest()
         {
-            var testUser = UserService.GetUserByAccount("acc2");
+            IUserService userService = new UserService(new UserDao());
+            var testUser = userService.GetUserByAccount("acc2");
             Project createProject = new Project()
             {
                 Manager = testUser,
-                Name = "testProject1234"
+                Name = "testProject7"
             };
 
-            //ProjectService.CreateProject(createProject, testUser);
+            ProjectService.CreateProject(createProject, testUser);
         }
     }
 }
