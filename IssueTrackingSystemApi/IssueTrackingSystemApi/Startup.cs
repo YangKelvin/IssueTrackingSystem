@@ -23,7 +23,7 @@ namespace IssueTrackingSystemApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            SqlHelper.DBConnectString = Configuration["Payload:Claims:Issuer"];
+            SqlHelper.DBConnectString = Configuration["DBConnection"];
         }
 
         public IConfiguration Configuration { get; }
