@@ -39,6 +39,11 @@ namespace IssueTrackingSystemApi.Services
             return _userDao.UpdateUser(new UserEntity() { Id = user.Id }, user.ObjectConvert<UserEntity>());
         }
 
+        public int UpdateUserByAccount(User user)
+        {
+            return _userDao.UpdateUser(new UserEntity() { Account = user.Account, Password=user.Password }, user.ObjectConvert<UserEntity>());
+        }
+
         /// <summary>
         /// 新增 User
         /// </summary>
