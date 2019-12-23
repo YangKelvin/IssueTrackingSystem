@@ -37,21 +37,12 @@ namespace IssueTrackingSystemApi.Services
 
         public int UpdateUser(User user)
         {
-            return _userDao.UpdateUser(new UserEntity() { Id = user.Id }, user.ObjectConvert<UserEntity>(i =>
-            {
-                i.CharactorId = Convert.ToInt32(user.Charactor);
-            }));
+            return _userDao.UpdateUser(new UserEntity() { Id = user.Id }, user.ObjectConvert<UserEntity>());
         }
 
         public int UpdateUserByAccount(User user)
         {
-            return _userDao.UpdateUser(new UserEntity() { Account = user.Account, Password=user.Password }, user.ObjectConvert<UserEntity>(i =>
-            {
-                if (!string.IsNullOrEmpty(user.Charactor))
-                {
-                    i.CharactorId = Convert.ToInt32(user.Charactor);
-                }
-            }));
+            return _userDao.UpdateUser(new UserEntity() { Account = user.Account, Password=user.Password }, user.ObjectConvert<UserEntity>());
         }
 
         public int CreateUser(User user)
