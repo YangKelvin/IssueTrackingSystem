@@ -92,7 +92,7 @@ namespace IssueTrackingSystemApi.Tests
             {
                 Id = 1,
                 Number = "dasdasd",
-                CreateUser = new User() { Id = 1 }
+                CreateUser = 1
             };
 
             var t = x.ObjectConvert<IssueEntity>(i =>

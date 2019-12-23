@@ -22,14 +22,14 @@ namespace IssueTrackingSystemApi.Tests
             {
                 Number = "Test_1",
                 CreateTime = System.DateTime.Now,
-                CreateUser = new User() { Id = 3 }
+                CreateUser = 3
             });
 
             var Test_2Id = issueService.CreateIssue(new Issue()
             {
                 Number = "Test_2",
                 CreateTime = System.DateTime.Now,
-                CreateUser = new User() { Id = 10 }
+                CreateUser = 10
             });
 
             int effCount = 0;
@@ -39,7 +39,7 @@ namespace IssueTrackingSystemApi.Tests
                 Id = Test_2Id,
                 Number = "Test_2(M)",
                 ModifyTime = System.DateTime.Now,
-                ModifyUser = new User() { Id = 13 }
+                ModifyUser = 13
             });
 
             var issuses = issueService.GetAllIssues();
@@ -58,7 +58,7 @@ namespace IssueTrackingSystemApi.Tests
                 Account = "acc2",
                 Password = "pwd2",
                 EMail = "email2",
-                Charactor = "2",
+                CharactorId = 2,
                 LineId = "line2",
                 Name = "name2"
             });

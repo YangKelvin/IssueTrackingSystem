@@ -34,12 +34,12 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// 受讓者
         /// </summary>
-        public User Assigner { get; set; }
+        public User AssignerId { get; set; }
 
         /// <summary>
         /// 回報者
         /// </summary>
-        public User Reporter { get; set; }
+        public User ReporterId { get; set; }
 
         /// <summary>
         /// 預計處理時間
@@ -74,22 +74,22 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// 種類
         /// </summary>
-        public int? Kind { get; set; }
+        public int? KindId { get; set; }
 
         /// <summary>
         /// 嚴重性
         /// </summary>
-        public int? Serverity { get; set; }
+        public int? ServerityId { get; set; }
 
         /// <summary>
         /// 狀態
         /// </summary>
-        public int? Status { get; set; }
+        public int? StatusId { get; set; }
 
         /// <summary>
         /// 緊急性
         /// </summary>
-        public int? Urgency { get; set; }
+        public int? UrgencyId { get; set; }
 
         /// <summary>
         /// 建立時間
@@ -99,7 +99,7 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// 建立人
         /// </summary>
-        public User CreateUser { get; set; }
+        public int? CreateUser { get; set; }
 
         /// <summary>
         /// 最後修改時間
@@ -109,7 +109,7 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// 最後修改人
         /// </summary>
-        public User ModifyUser { get; set; }
+        public int? ModifyUser { get; set; }
 
         /// <summary>
         /// 留言
