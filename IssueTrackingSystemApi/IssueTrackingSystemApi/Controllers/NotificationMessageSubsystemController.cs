@@ -18,10 +18,13 @@ namespace IssueTrackingSystemApi.Controllers
 
         private readonly IUserService _userService;
 
-        public NotificationMessageSubsystemController(IConfiguration configuration, IUserService userService)
+        private readonly INotificationMessageSubsystem _notificationMessageSubsystem;
+
+        public NotificationMessageSubsystemController(IConfiguration configuration, IUserService userService, INotificationMessageSubsystem notificationMessageSubsystem)
         {
             _config = configuration;
             _userService = userService;
+            _notificationMessageSubsystem = notificationMessageSubsystem;
         }
 
         [HttpPost]
@@ -47,6 +50,15 @@ namespace IssueTrackingSystemApi.Controllers
             }
 
             return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("SendMsg")]
+        public IActionResult SendMessageToUser([FromBody] LineBotMessage lineBotMessage)
+        {
+            _notificationMessageSubsystem.SendLineMessage(lineBotMessage.Message,
+                lineBotMessage.Users.Select(u => new User() { LineId = u }).ToArray());
+            return Ok();
         }
 
     }

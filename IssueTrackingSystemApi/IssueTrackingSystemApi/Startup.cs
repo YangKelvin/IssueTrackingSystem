@@ -52,6 +52,7 @@ namespace IssueTrackingSystemApi
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IProjectService, ProjectService>();
             services.AddSingleton<IIssueService, IssueService>();
+            services.AddSingleton<INotificationMessageSubsystem, NotificationMessageSubsystem>();
             services.AddTransient<IUserDao, UserDao>();
             services.AddTransient<IIssueDao, IssueDao>();
 
