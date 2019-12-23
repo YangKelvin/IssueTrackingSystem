@@ -12,9 +12,7 @@ namespace IssueTrackingSystemApi.CommonTools
 {
     public class SqlHelper
     {
-        private static string ConnectString = @"Data Source=DESKTOP-8AE76V4\SQLEXPRESS;Initial Catalog=ITS;User ID=sa;Password=sa";
-
-        private static string GetDataBaseConnectString { get => ConnectString; }
+        public static string DBConnectString { get; set; }
 
         /// <summary>
         /// 取得Entity Model 查詢結果
@@ -27,7 +25,7 @@ namespace IssueTrackingSystemApi.CommonTools
             if (conition == null) conition = new T();
 
             IEnumerable<T> result;
-            using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
+            using (SqlConnection conn = new SqlConnection(DBConnectString))
             {
                 SqlCommand sql = new SqlCommand(ObjectToSql(SqlAction.SELECT, conition: conition));
                 var dataTable = QueryWithNolock(conn, sql, ObjectToParm(conition));
@@ -47,7 +45,7 @@ namespace IssueTrackingSystemApi.CommonTools
         public static IEnumerable<T> Select<T>(string sqlStr, Dictionary<string, object> sqlParmDic = null) where T : class, new()
         {
             IEnumerable<T> result;
-            using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
+            using (SqlConnection conn = new SqlConnection(DBConnectString))
             {
                 SqlCommand sql = new SqlCommand(sqlStr);
                 var dataTable = QueryWithNolock(conn, sql, sqlParmDic);
@@ -66,7 +64,7 @@ namespace IssueTrackingSystemApi.CommonTools
         public static int Insert<T>(T insertData) where T : class, new()
         {
             int id = -1;
-            using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
+            using (SqlConnection conn = new SqlConnection(DBConnectString))
             {
                 SqlCommand sql = new SqlCommand(ObjectToSql(SqlAction.INSERT, newData: insertData));
 
@@ -90,7 +88,7 @@ namespace IssueTrackingSystemApi.CommonTools
         public static int Delete<T>(T conition) where T : class, new()
         {
             int id = -1;
-            using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
+            using (SqlConnection conn = new SqlConnection(DBConnectString))
             {
                 SqlCommand sql = new SqlCommand(ObjectToSql(SqlAction.DELETE, conition: conition));
                 id = QueryWithTransaction(conn, sql, ObjectToParm(conition), TransactionResultType.EffectNum);
@@ -109,7 +107,7 @@ namespace IssueTrackingSystemApi.CommonTools
         public static int Update<T>(T conition, T newData) where T : class, new()
         {
             int id = -1;
-            using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
+            using (SqlConnection conn = new SqlConnection(DBConnectString))
             {
                 SqlCommand sql = new SqlCommand(ObjectToSql(SqlAction.UPDATE, conition: conition, newData: newData));
                 id = QueryWithTransaction(conn, sql, ObjectToParm(conition, "Con_").Union(
@@ -123,7 +121,7 @@ namespace IssueTrackingSystemApi.CommonTools
         public static int Execute(string sqlStr, Dictionary<string, object> sqlParmDic = null, TransactionResultType resultType = TransactionResultType.EffectNum)
         {
             int id = -1;
-            using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
+            using (SqlConnection conn = new SqlConnection(DBConnectString))
             {
                 SqlCommand sql = new SqlCommand(sqlStr);
                 id = QueryWithTransaction(conn, sql, sqlParmDic, resultType);
