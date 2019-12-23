@@ -12,7 +12,7 @@ namespace IssueTrackingSystemApi.CommonTools
 {
     public class SqlHelper
     {
-        private static string ConnectString = @"Data Source=DESKTOP-8AE76V4\SQLEXPRESS;Initial Catalog=ITS;User ID=sa;Password=sa";
+        private static string ConnectString = @"Data Source=REX-LIN\COURSE_SQL;Initial Catalog=ITS;User ID=sqlLogin;Password=password1123";
 
         private static string GetDataBaseConnectString { get => ConnectString; }
 

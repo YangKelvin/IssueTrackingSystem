@@ -43,6 +43,17 @@ namespace IssueTrackingSystemApi.Services
             }));
         }
 
+        public int UpdateUserByAccount(User user)
+        {
+            return _userDao.UpdateUser(new UserEntity() { Account = user.Account, Password=user.Password }, user.ObjectConvert<UserEntity>(i =>
+            {
+                if (!string.IsNullOrEmpty(user.Charactor))
+                {
+                    i.CharactorId = Convert.ToInt32(user.Charactor);
+                }
+            }));
+        }
+
         public int CreateUser(User user)
         {
             UserEntity userEntity = user.ObjectConvert<UserEntity>();
