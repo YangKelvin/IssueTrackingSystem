@@ -63,13 +63,13 @@ namespace IssueTrackingSystemApi.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult Get([FromQuery] int id)
+        public IActionResult Get(int id)
         {
             User project = _userService.GetUserById(id);
 
             if (project == null)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, "Didn't find any project");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Didn't find any user");
             }
             else
             {
@@ -97,7 +97,7 @@ namespace IssueTrackingSystemApi.Controllers
             }
             else
             {
-                return Created($"api/[controller]", "acount created");
+                return Created($"api/[controller]", affectedRows);
             }
         }
 
@@ -112,17 +112,13 @@ namespace IssueTrackingSystemApi.Controllers
         public IActionResult Update([FromQuery] int id, [FromBody] User user)
         {
             int affectedRows = _userService.UpdateUser(user);
-            if (affectedRows == 1)
-            {
-                return Ok("Update success");
-            }
-            else if (affectedRows == 0)
+            if (affectedRows == 0)
             {
                 return BadRequest("Invalid input, object invalid");
             }
             else
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError);
+                return Ok(affectedRows);
             }
         }
     }

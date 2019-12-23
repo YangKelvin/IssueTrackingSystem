@@ -9,7 +9,8 @@ CREATE TABLE [User] (
     [CharactorId] INT,
     [Name] NVARCHAR(50),
     [LineId] NVARCHAR(50),
-    FOREIGN KEY (CharactorId) REFERENCES [Charactor](Id)
+    FOREIGN KEY (CharactorId) REFERENCES [Charactor](Id),
+	UNIQUE([Account])
 );
 
 -- 系統管理員
