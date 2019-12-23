@@ -8,6 +8,7 @@ namespace IssueTrackingSystemApi.Tests
 {
     public class ServiceTest
     {
+        private readonly IUserDao _userDao;
         [SetUp]
         public void Setup()
         {
@@ -77,6 +78,5 @@ namespace IssueTrackingSystemApi.Tests
             
             Assert.Pass();
         }
-
     }
 }

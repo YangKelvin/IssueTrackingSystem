@@ -13,7 +13,6 @@ namespace IssueTrackingSystemApi.Services
     public class UserService : IUserService
     {
         private readonly IUserDao _userDao;
-
         public UserService(IUserDao userDao)
         {
             _userDao = userDao;
@@ -45,6 +44,11 @@ namespace IssueTrackingSystemApi.Services
             return _userDao.UpdateUser(new UserEntity() { Account = user.Account, Password=user.Password }, user.ObjectConvert<UserEntity>());
         }
 
+        /// <summary>
+        /// 新增 User
+        /// </summary>
+        /// <param name="user">注意: user.Charactor 要是 id</param>
+        /// <returns></returns>
         public int CreateUser(User user)
         {
             UserEntity userEntity = user.ObjectConvert<UserEntity>();
@@ -53,8 +57,14 @@ namespace IssueTrackingSystemApi.Services
 
         public bool ValidateUser(LoginInfo loginInfo)
         {
-            //TODO: 驗證待寫
-            return loginInfo.account == "chris" && loginInfo.password == "1234";
+            User user = new User()
+            {
+                Account = loginInfo.account,
+                Password = loginInfo.password
+            };
+            UserEntity userEntity = _userDao.Query(new UserEntity() { Account = user.Account, Password = user.Password }).FirstOrDefault();
+
+            return userEntity != null;
         }
 
         public List<User> GetAllUsers()
@@ -62,7 +72,7 @@ namespace IssueTrackingSystemApi.Services
             List<UserEntity> userEntitys = _userDao.Query().ToList();
 
             return userEntitys.Select(i => i.ObjectConvert<User>()).ToList();
-            
+
         }
     }
 }

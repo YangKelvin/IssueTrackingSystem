@@ -9,7 +9,7 @@ namespace IssueTrackingSystemApi.Services
     {
         List<Project> GetAllProjects();
 
-        int CreateProject(Project project);
+        int CreateProject(Project project, User createUser);
 
         Project GetProjectById(int id);
 

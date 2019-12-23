@@ -75,7 +75,7 @@ namespace IssueTrackingSystemApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Project project)
         {
-            int affectedRows = _projectService.CreateProject(project);
+            int affectedRows = _projectService.CreateProject(project, new User()); // 虛傳入 User
             if (affectedRows == 0)
             {
                 return BadRequest("Invalid input, object invalid");

@@ -71,7 +71,7 @@ namespace IssueTrackingSystemApi.Services
         }
 
         /// <summary>
-        /// Create issue
+        /// Update issue
         /// </summary>
         /// <param name="issue"></param>
         /// <returns></returns>
