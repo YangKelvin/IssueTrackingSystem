@@ -7,14 +7,31 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using IssueTrackingSystemApi.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace IssueTrackingSystemApi.Services
 {
-    public class NotificationMessageSubsystem
+    public class NotificationMessageSubsystem : INotificationMessageSubsystem
     {
         public string LintHostString { get => @"https://mysterious-wave-50057.herokuapp.com/SendIssueNotification/"; }
 
-        public bool SendMail(string mailMessage, string[] addressees, string[] carbonCopys = null, Attachment[] attachments = null)
+        public IConfiguration Config { get; }
+
+        public NotificationMessageSubsystem(IConfiguration configuration)
+        {
+            Config = configuration;
+        }
+
+        /// <summary>
+        /// 發Mail
+        /// </summary>
+        /// <param name="subject">郵件標題</param>
+        /// <param name="mailMessage">郵件內容</param>
+        /// <param name="addressees">收件人</param>
+        /// <param name="carbonCopys">CC</param>
+        /// <param name="attachments">附件</param>
+        /// <returns></returns>
+        public bool SendMail(string subject ,string mailMessage, string[] addressees, string[] carbonCopys = null, Attachment[] attachments = null)
         {
             try
             {
@@ -23,20 +40,20 @@ namespace IssueTrackingSystemApi.Services
                 if (addressees == null || !addressees.Any()) return false; // 沒收件者就是錯的
 
                 Array.ForEach(addressees, i => msg.To.Add(i)); // 正本
-                if (carbonCopys != null && carbonCopys.Any()) 
-                { 
+                if (carbonCopys != null && carbonCopys.Any())
+                {
                     Array.ForEach(carbonCopys, i => msg.CC.Add(i)); // CC
                 }
 
                 //這裡可以隨便填，不是很重要
-                msg.From = new MailAddress("issuetrackingsystemmail@gmail.com", " ", Encoding.UTF8);
+                msg.From = new MailAddress(Config["NMSSetting:Mail:UserName"], Config["NMSSetting:Mail:DisplayName"], Encoding.UTF8);
                 /* 上面3個參數分別是發件人地址（可以隨便寫），發件人姓名，編碼*/
-                msg.Subject = "測試標題";//郵件標題
+                msg.Subject = subject;//郵件標題
                 msg.SubjectEncoding = Encoding.UTF8;//郵件標題編碼
                 msg.Body = mailMessage; //郵件內容
                 msg.BodyEncoding = Encoding.UTF8;//郵件內容編碼 
 
-                if(attachments != null && attachments.Any())
+                if (attachments != null && attachments.Any())
                 {
                     Array.ForEach(attachments, a => msg.Attachments.Add(a));  //附件
                 }
@@ -45,9 +62,9 @@ namespace IssueTrackingSystemApi.Services
                                       //msg.Priority = MailPriority.High;//郵件優先級 
 
                 SmtpClient client = new SmtpClient();
-                client.Credentials = new System.Net.NetworkCredential("issuetrackingsystemmail@gmail.com", "IssueTracking"); //這裡要填正確的帳號跟密碼
-                client.Host = "smtp.gmail.com"; //設定smtp Server
-                client.Port = 25; //設定Port
+                client.Credentials = new System.Net.NetworkCredential(Config["NMSSetting:Mail:UserName"], Config["NMSSetting:Mail:Password"]); //這裡要填正確的帳號跟密碼
+                client.Host = Config["NMSSetting:Mail:Host"]; //設定smtp Server
+                client.Port = int.Parse(Config["NMSSetting:Mail:Port"]); //設定Port
                 client.EnableSsl = true; //gmail預設開啟驗證
                 client.Send(msg); //寄出信件
                 client.Dispose();
@@ -62,11 +79,19 @@ namespace IssueTrackingSystemApi.Services
             }
         }
 
-        public string SendLineMessage(string lineMessage, string[] userId)
+        /// <summary>
+        /// 送Line Bot通知
+        /// </summary>
+        /// <param name="lineMessage">訊息</param>
+        /// <param name="users">User</param>
+        /// <returns></returns>
+        public string SendLineMessage(string lineMessage, User[] users)
         {
-            return PostResponse<LineBotResponse, LineBotMessage>(LintHostString, new LineBotMessage()
+            return PostResponse<LineBotResponse, LineBotMessage>(Config["NMSSetting:LineBot:BotUrl"], new LineBotMessage()
             {
-                Users = userId,
+                Users = users.Where(u => !string.IsNullOrEmpty(u.LineId))
+                             .Select(u => u.LineId)
+                             .ToArray(),
                 Message = lineMessage
             }).Message;
         }
