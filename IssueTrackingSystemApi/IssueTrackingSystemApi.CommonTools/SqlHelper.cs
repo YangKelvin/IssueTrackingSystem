@@ -7,13 +7,12 @@ using System.Reflection;
 using System.Text;
 using System.Linq;
 using IssueTrackingSystemApi.Models.Entity;
-using System.Collections.Generic;
 
 namespace IssueTrackingSystemApi.CommonTools
 {
     public class SqlHelper
     {
-        private static string ConnectString = @"Data Source=REX-LIN\COURSE_SQL;Initial Catalog=ITS;User ID=sqlLogin;Password=password1123";
+        private static string ConnectString = @"Data Source=DESKTOP-8AE76V4\SQLEXPRESS;Initial Catalog=ITS;User ID=sa;Password=sa";
 
         private static string GetDataBaseConnectString { get => ConnectString; }
 
@@ -486,6 +485,12 @@ namespace IssueTrackingSystemApi.CommonTools
                         break;
                 }
                 tran.Commit();
+            }
+            catch(SqlException sqlException)
+            {
+                tran.Rollback();
+                if (sqlException.Number == 2627) 
+                    result = -1; // 違反 %ls 條件約束 '%.ls'。無法在物件 '%.ls' 中插入重複的索引鍵。
             }
             catch(Exception e)
             {

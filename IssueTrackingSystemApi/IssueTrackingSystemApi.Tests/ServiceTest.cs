@@ -2,6 +2,7 @@
 using IssueTrackingSystemApi.Models;
 using NUnit.Framework;
 using IssueTrackingSystemApi.Services;
+using IssueTrackingSystemApi.Dao;
 
 namespace IssueTrackingSystemApi.Tests
 {
@@ -15,7 +16,7 @@ namespace IssueTrackingSystemApi.Tests
         [Test]
         public void IssueTest()
         {
-            IIssueService issueService = new IssueService();
+            IIssueService issueService = new IssueService(new IssueDao(), new UserDao());
 
             var Test_1Id = issueService.CreateIssue(new Issue()
             {
@@ -50,7 +51,7 @@ namespace IssueTrackingSystemApi.Tests
         [Test]
         public void UserTest()
         {
-            IUserService userService = new UserService();
+            IUserService userService = new UserService(new UserDao());
 
             var user1 = userService.CreateUser(new User()
             {

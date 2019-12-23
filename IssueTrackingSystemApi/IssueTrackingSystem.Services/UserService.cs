@@ -12,21 +12,24 @@ namespace IssueTrackingSystemApi.Services
 {
     public class UserService : IUserService
     {
-        private IUserDao UserDao { get => new UserDao(); }
+        private readonly IUserDao _userDao;
 
-        public UserService()
+        public UserService(IUserDao userDao)
         {
-
+            _userDao = userDao;
         }
 
         public User GetUserById(int id)
         {
-            throw new NotImplementedException();
+            UserEntity userEntity = _userDao.Query(new UserEntity() { Id = id }).FirstOrDefault();
+            User user = userEntity.ObjectConvert<User>();
+
+            return user;
         }
 
         public User GetUserByAccount(string account)
         {
-            UserEntity userEntity = UserDao.Query(new UserEntity() { Account = account }).FirstOrDefault();
+            UserEntity userEntity = _userDao.Query(new UserEntity() { Account = account }).FirstOrDefault();
             User user = userEntity.ObjectConvert<User>();
 
             return user;
@@ -34,11 +37,10 @@ namespace IssueTrackingSystemApi.Services
 
         public int UpdateUser(User user)
         {
-            return UserDao.UpdateUser(new UserEntity() { Id = user.Id }, user.ObjectConvert<UserEntity>(i =>
+            return _userDao.UpdateUser(new UserEntity() { Id = user.Id }, user.ObjectConvert<UserEntity>(i =>
             {
                 i.CharactorId = Convert.ToInt32(user.Charactor);
             }));
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -50,7 +52,7 @@ namespace IssueTrackingSystemApi.Services
         {
             UserEntity userEntity = user.ObjectConvert<UserEntity>();
             userEntity.CharactorId = Convert.ToInt32(user.Charactor);
-            return UserDao.CreatUser(userEntity);
+            return _userDao.CreatUser(userEntity);
         }
 
         public bool ValidateUser(LoginInfo loginInfo)
@@ -61,7 +63,7 @@ namespace IssueTrackingSystemApi.Services
 
         public List<User> GetAllUsers()
         {
-            List<UserEntity> userEntitys = UserDao.Query().ToList();
+            List<UserEntity> userEntitys = _userDao.Query().ToList();
 
             return userEntitys.Select(i => i.ObjectConvert<User>()).ToList();
             

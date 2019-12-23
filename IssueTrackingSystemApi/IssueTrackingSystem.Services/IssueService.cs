@@ -11,11 +11,13 @@ namespace IssueTrackingSystemApi.Services
 {
     public class IssueService : IIssueService
     {
-        private IIssueDao IssueDao { get => new IssueDao(); }
-        private IUserDao UserDao { get => new UserDao(); }
+        private readonly IIssueDao _issueDao;
+        private readonly IUserDao _userDao;
 
-        public IssueService()
+        public IssueService(IIssueDao issueDao, IUserDao userDao)
         {
+            _issueDao = issueDao;
+            _userDao = userDao;
         }
 
         /// <summary>
@@ -28,7 +30,7 @@ namespace IssueTrackingSystemApi.Services
             IssueEntity issueEntity = issue.ObjectConvert<IssueEntity>();
             issueEntity.CreateUesr = issue.CreateUser.Id;
 
-            return IssueDao.CreatIssue(issueEntity);
+            return _issueDao.CreatIssue(issueEntity);
         }
 
         /// <summary>
@@ -38,10 +40,10 @@ namespace IssueTrackingSystemApi.Services
         /// <returns></returns>
         public Issue GetIssueById(int id)
         {
-            IssueEntity issueEntity = IssueDao.Query(new IssueEntity() { Id = id }).FirstOrDefault();
+            IssueEntity issueEntity = _issueDao.Query(new IssueEntity() { Id = id }).FirstOrDefault();
             Issue issue = issueEntity.ObjectConvert<Issue>();
-            issue.CreateUser = UserDao.Query(new UserEntity() { Id = issueEntity.CreateUesr }).FirstOrDefault().ObjectConvert<User>();
-            issue.ModifyUser = UserDao.Query(new UserEntity() { Id = issueEntity.ModifyUser }).FirstOrDefault().ObjectConvert<User>();
+            issue.CreateUser = _userDao.Query(new UserEntity() { Id = issueEntity.CreateUesr }).FirstOrDefault().ObjectConvert<User>();
+            issue.ModifyUser = _userDao.Query(new UserEntity() { Id = issueEntity.ModifyUser }).FirstOrDefault().ObjectConvert<User>();
 
             return issue;
         }
@@ -53,10 +55,10 @@ namespace IssueTrackingSystemApi.Services
         /// <returns></returns>
         public Issue GetIssueByNumber(string number)
         {
-            IssueEntity issueEntity = IssueDao.Query(new IssueEntity() { Number = number }).FirstOrDefault();
+            IssueEntity issueEntity = _issueDao.Query(new IssueEntity() { Number = number }).FirstOrDefault();
             Issue issue = issueEntity.ObjectConvert<Issue>();
-            issue.CreateUser = UserDao.Query(new UserEntity() { Id = issueEntity.CreateUesr }).FirstOrDefault().ObjectConvert<User>();
-            issue.ModifyUser = UserDao.Query(new UserEntity() { Id = issueEntity.ModifyUser }).FirstOrDefault().ObjectConvert<User>();
+            issue.CreateUser = _userDao.Query(new UserEntity() { Id = issueEntity.CreateUesr }).FirstOrDefault().ObjectConvert<User>();
+            issue.ModifyUser = _userDao.Query(new UserEntity() { Id = issueEntity.ModifyUser }).FirstOrDefault().ObjectConvert<User>();
 
             return issue;
         }
@@ -67,8 +69,8 @@ namespace IssueTrackingSystemApi.Services
         /// <returns></returns>
         public List<Issue> GetAllIssues()
         {
-            List<IssueEntity> issueEntitys = IssueDao.Query().ToList();
-            List<UserEntity> userEntitys = UserDao.Query().ToList();
+            List<IssueEntity> issueEntitys = _issueDao.Query().ToList();
+            List<UserEntity> userEntitys = _userDao.Query().ToList();
 
             return issueEntitys.Select(i => i.ObjectConvert<Issue>(iss =>
             {
@@ -84,7 +86,7 @@ namespace IssueTrackingSystemApi.Services
         /// <returns></returns>
         public int UpdateIssue(Issue issue)
         {
-            return IssueDao.UpdateIssue(new IssueEntity() { Id = issue.Id }, issue.ObjectConvert<IssueEntity>(i =>
+            return _issueDao.UpdateIssue(new IssueEntity() { Id = issue.Id }, issue.ObjectConvert<IssueEntity>(i =>
             {
                 i.CreateUesr = issue.CreateUser?.Id;
                 i.ModifyUser = issue.ModifyUser?.Id;

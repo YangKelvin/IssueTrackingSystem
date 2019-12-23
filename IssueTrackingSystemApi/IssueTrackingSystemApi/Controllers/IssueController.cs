@@ -63,13 +63,13 @@ namespace IssueTrackingSystemApi.Controllers
             {
                 return BadRequest("Invalid input, object invalid");
             }
-            else if (affectedRows == 1)
+            else if (affectedRows == -1)
             {
-                return Ok("Create Issue success");
+                return Conflict("An existing item already exist");
             }
             else
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, "Create Issue failed");
+                return Ok(affectedRows);
             }
         }
 
@@ -78,17 +78,13 @@ namespace IssueTrackingSystemApi.Controllers
         public IActionResult Update([FromQuery] int id, [FromBody] Issue Issue)
         {
             int affectedRows = _IssueService.UpdateIssue(Issue);
-            if (affectedRows == 1)
-            {
-                return Ok("Update success");
-            }
-            else if (affectedRows == 0)
+            if (affectedRows == 0)
             {
                 return BadRequest("Invalid input, object invalid");
             }
             else
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError);
+                return Ok(affectedRows);
             }
         }
     }

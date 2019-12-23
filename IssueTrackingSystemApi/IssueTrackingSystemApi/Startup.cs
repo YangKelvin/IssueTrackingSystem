@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IssueTrackingSystemApi.CommonTools;
+using IssueTrackingSystemApi.Dao;
 using IssueTrackingSystemApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +30,18 @@ namespace IssueTrackingSystemApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                // CorsPolicy 是自訂的 Policy 名稱
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });
+            });
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(new ProducesAttribute("application/json"));
@@ -39,6 +52,8 @@ namespace IssueTrackingSystemApi
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IProjectService, ProjectService>();
             services.AddSingleton<IIssueService, IssueService>();
+            services.AddTransient<IUserDao, UserDao>();
+            services.AddTransient<IIssueDao, IssueDao>();
 
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -56,7 +71,7 @@ namespace IssueTrackingSystemApi
 
                         // 一般我們都會驗證 Issuer
                         ValidateIssuer = true,
-                        ValidIssuer = "JwtAuthDemo", // "JwtAuthDemo" 應該從 IConfiguration 取得
+                        ValidIssuer = Configuration["Payload:Claims:Issuer"], // "JwtAuthDemo" 應該從 IConfiguration 取得
 
                         // 通常不太需要驗證 Audience
                         ValidateAudience = false,
@@ -68,8 +83,7 @@ namespace IssueTrackingSystemApi
                         // 如果 Token 中包含 key 才需要驗證，一般都只有簽章而已
                         ValidateIssuerSigningKey = false,
 
-                        // "1234567890123456" 應該從 IConfiguration 取得
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("1234567890123456"))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Payload:Claims:SignKey"]))
                     };
                 });
         }
@@ -81,6 +95,7 @@ namespace IssueTrackingSystemApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("CorsPolicy");
 
             //使用驗證權限的 Middleware
             app.UseAuthentication();
