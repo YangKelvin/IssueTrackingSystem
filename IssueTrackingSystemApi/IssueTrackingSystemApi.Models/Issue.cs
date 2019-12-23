@@ -44,7 +44,7 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// 預計處理時間
         /// </summary>
-        public float EstimatedTime { get; set; }
+        public double EstimatedTime { get; set; }
 
         /// <summary>
         /// 預計開始時間

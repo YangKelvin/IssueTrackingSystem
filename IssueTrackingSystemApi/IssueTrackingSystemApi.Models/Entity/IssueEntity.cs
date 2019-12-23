@@ -57,7 +57,7 @@ namespace IssueTrackingSystemApi.Models.Entity
         /// 估計處理時間(給分配問題的人填寫)
         /// </summary>
         [DB(ColumnName = "Estimated")]
-        public float? Estimated { get; set; }
+        public double? Estimated { get; set; }
 
         /// <summary>
         /// 估計開始時間(給問題處理的人填寫)
