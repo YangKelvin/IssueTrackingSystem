@@ -69,7 +69,13 @@ namespace IssueTrackingSystemApi.CommonTools
             using (SqlConnection conn = new SqlConnection(GetDataBaseConnectString))
             {
                 SqlCommand sql = new SqlCommand(ObjectToSql(SqlAction.INSERT, newData: insertData));
-                id = QueryWithTransaction(conn, sql, ObjectToParm(insertData), TransactionResultType.EffectId);
+
+                var tranResult = TransactionResultType.EffectNum;
+                PropertyInfo[] properties = typeof(T).GetProperties();
+                if (properties.Where(pi => GetColumnName(pi).AutoGenerate).Any())
+                    tranResult = TransactionResultType.EffectId;
+
+                id = QueryWithTransaction(conn, sql, ObjectToParm(insertData), tranResult);
             }
 
             return id;

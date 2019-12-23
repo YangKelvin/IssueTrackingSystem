@@ -40,7 +40,7 @@ namespace IssueTrackingSystemApi.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult Get([FromQuery] int id)
+        public IActionResult Get(int id)
         {
             Issue Issue = _IssueService.GetIssueById(id);
 
