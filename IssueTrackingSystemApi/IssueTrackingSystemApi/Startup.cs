@@ -23,6 +23,7 @@ namespace IssueTrackingSystemApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            SqlHelper.DBConnectString = Configuration["Payload:Claims:Issuer"];
         }
 
         public IConfiguration Configuration { get; }
@@ -48,7 +49,6 @@ namespace IssueTrackingSystemApi
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddTransient<SqlHelper>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IProjectService, ProjectService>();
             services.AddSingleton<IIssueService, IssueService>();
