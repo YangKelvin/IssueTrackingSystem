@@ -49,6 +49,16 @@ namespace IssueTrackingSystemApi.Tests
         }
 
         [Test]
+        public void IssueTest2()
+        {
+            IIssueService issueService = new IssueService(new IssueDao(), new UserDao());
+
+            var x = issueService.GetIssueById(23);
+
+            Assert.Pass();
+        }
+
+        [Test]
         public void UserTest()
         {
             IUserService userService = new UserService(new UserDao());
