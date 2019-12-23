@@ -55,7 +55,23 @@ namespace IssueTrackingSystemApi.Tests
 
             Assert.IsTrue(true);
         }
-    
+
+
+        [Test]
+        public void InsertTest2()
+        {
+            int x;
+
+            x = SqlHelper.Insert(new UserProjectRelationEntity()
+            {
+                ProjectId = 1,
+                UserId = 2,
+                ProjectCharactorId = 1
+            });
+
+            Assert.IsTrue(true);
+        }
+
         [Test]
         public void DeleteTest()
         {
@@ -92,7 +108,7 @@ namespace IssueTrackingSystemApi.Tests
             {
                 Id = 1,
                 Number = "dasdasd",
-                CreateUser = new User() { Id = 1 }
+                CreateUser = 1
             };
 
             var t = x.ObjectConvert<IssueEntity>(i =>

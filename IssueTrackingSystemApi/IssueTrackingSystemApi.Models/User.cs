@@ -29,7 +29,7 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// Åv­­
         /// </summary>
-        public string Charactor { get; set; }
+        public int? CharactorId { get; set; }
 
         /// <summary>
         /// ¦WºÙ

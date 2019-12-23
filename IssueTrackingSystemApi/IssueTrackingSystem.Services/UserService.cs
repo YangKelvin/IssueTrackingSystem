@@ -60,7 +60,6 @@ namespace IssueTrackingSystemApi.Services
         public int CreateUser(User user)
         {
             UserEntity userEntity = user.ObjectConvert<UserEntity>();
-            userEntity.CharactorId = Convert.ToInt32(user.Charactor);
             return _userDao.CreatUser(userEntity);
         }
 

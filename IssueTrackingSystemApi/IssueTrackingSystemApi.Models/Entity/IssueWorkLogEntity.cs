@@ -26,7 +26,7 @@ namespace IssueTrackingSystemApi.Models.Entity
         /// 花費時間 (小時)
         /// </summary>
         [DB(ColumnName = "SpentTime")]
-        public float SpentTime { get; set; }
+        public double? SpentTime { get; set; }
 
         /// <summary>
         /// 開始時間
