@@ -136,8 +136,10 @@ namespace IssueTrackingSystemApi.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost("{id}")]
-        public IActionResult Update([FromQuery] int id, [FromBody] User user)
+        public IActionResult Update(int id, [FromBody] User user)
         {
+            user.Id = id;
+
             int affectedRows = _userService.UpdateUser(user);
             if (affectedRows == 0)
             {

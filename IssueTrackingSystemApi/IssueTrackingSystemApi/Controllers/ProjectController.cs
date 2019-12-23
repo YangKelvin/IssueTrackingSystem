@@ -53,7 +53,7 @@ namespace IssueTrackingSystemApi.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult Get([FromQuery] int id)
+        public IActionResult Get(int id)
         {
             Project project = _projectService.GetProjectById(id);
 
@@ -76,7 +76,7 @@ namespace IssueTrackingSystemApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] CreateProject project)
         {
-            int affectedRows = _projectService.CreateProject(project); // 虛傳入 User
+            int affectedRows = _projectService.CreateProject(project);
             if (affectedRows == 0)
             {
                 return BadRequest("Invalid input, object invalid");
@@ -99,8 +99,9 @@ namespace IssueTrackingSystemApi.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost("{id}")]
-        public IActionResult Update([FromQuery] int id, [FromBody] Project project)
+        public IActionResult Update(int id, [FromBody] Project project)
         {
+            //TODO: 更新未完成
             int affectedRows = _projectService.UpdateProject(project);
             if (affectedRows == 0)
             {
@@ -111,5 +112,7 @@ namespace IssueTrackingSystemApi.Controllers
                 return Ok(affectedRows);
             }
         }
+
+        //TODO: 刪除未完成
     }
 }
