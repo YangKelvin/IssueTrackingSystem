@@ -17,6 +17,7 @@
     <ProjectReference Include="..\IssueTrackingSystemApi.CommonTools\IssueTrackingSystemApi.CommonTools.csproj" />
     <ProjectReference Include="..\IssueTrackingSystemApi.Dao\IssueTrackingSystemApi.Dao.csproj" />
     <ProjectReference Include="..\IssueTrackingSystemApi.Models\IssueTrackingSystemApi.Models.csproj" />
+    <ProjectReference Include="..\IssueTrackingSystemApi\IssueTrackingSystemApi.csproj" />
   </ItemGroup>
 
 </Project>

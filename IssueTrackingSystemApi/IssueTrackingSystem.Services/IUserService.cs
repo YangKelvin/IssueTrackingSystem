@@ -12,6 +12,8 @@ namespace IssueTrackingSystemApi.Services
 
         int UpdateUser(User user);
 
+        int UpdateUserByAccount(User user);
+
         int CreateUser(User user);
 
         bool ValidateUser(LoginInfo loginInfo);
