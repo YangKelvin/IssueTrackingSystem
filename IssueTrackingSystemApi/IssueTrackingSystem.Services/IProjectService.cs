@@ -15,5 +15,7 @@ namespace IssueTrackingSystemApi.Services
         Project GetProjectById(int id);
 
         int UpdateProject(int id, ProjectFront project);
+
+        int DeleteProject(int id);
     }
 }

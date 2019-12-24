@@ -81,30 +81,32 @@ namespace IssueTrackingSystemApi.Services
 
             Project project = projectEntity.ObjectConvert<Project>();
 
-            var relations = _projectDao.GetRelationByProjectId(project.Id);
-
-            List<User> developers = new List<User>();
-            List<User> generals = new List<User>();
-            // 取得該 project 下的 developer
-            foreach (var r in relations)
+            if (project != null)
             {
-                User tmp = userEntitys.Find(u => u.Id == r.UserId).ObjectConvert<User>();
-                if (r.ProjectCharactorId == 1) //manager
-                {
-                    project.Manager = tmp;
-                }
-                else if (r.ProjectCharactorId == 2) //developer
-                {
-                    developers.Add(tmp);
-                }
-                else if(r.ProjectCharactorId == 3) // general
-                {
-                    generals.Add(tmp);
-                }
-            }
-            project.Developers = developers;
-            project.Generals = generals;
+                var relations = _projectDao.GetRelationByProjectId(project.Id);
 
+                List<User> developers = new List<User>();
+                List<User> generals = new List<User>();
+                // 取得該 project 下的 developer
+                foreach (var r in relations)
+                {
+                    User tmp = userEntitys.Find(u => u.Id == r.UserId).ObjectConvert<User>();
+                    if (r.ProjectCharactorId == 1) //manager
+                    {
+                        project.Manager = tmp;
+                    }
+                    else if (r.ProjectCharactorId == 2) //developer
+                    {
+                        developers.Add(tmp);
+                    }
+                    else if (r.ProjectCharactorId == 3) // general
+                    {
+                        generals.Add(tmp);
+                    }
+                }
+                project.Developers = developers;
+                project.Generals = generals;
+            }
             return project;
         }
 
@@ -153,7 +155,6 @@ namespace IssueTrackingSystemApi.Services
         /// <returns></returns>
         public int UpdateProject(int projectId, ProjectFront project)
         {
-            // TODO: udpate會夾manager, developers跟generals的Id(去ProjectFront看), 幫我把它們mapping進UserProjectRelation裡面, 感恩
             _projectDao.UpdateProject(new ProjectEntity() { Id = projectId }, project.ObjectConvert<ProjectEntity>());
 
             // 更新 UserProjectRelation
@@ -190,6 +191,12 @@ namespace IssueTrackingSystemApi.Services
 
             return projectId;
         }
-        
+
+        public int DeleteProject(int id)
+        {
+            // 更新 UserProjectRelation
+            _projectDao.DeleteRelationByProjectId(id);    // 刪除所有關聯
+            return _projectDao.DeleteProject(id);
+        }
     }
 }

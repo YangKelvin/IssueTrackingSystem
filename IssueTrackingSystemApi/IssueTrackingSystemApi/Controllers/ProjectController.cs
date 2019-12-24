@@ -101,7 +101,6 @@ namespace IssueTrackingSystemApi.Controllers
         [HttpPost("{id}")]
         public IActionResult Update(int id, [FromBody] ProjectFront project)
         {
-            //TODO: 更新未完成
             int affectedRows = _projectService.UpdateProject(id, project);
             if (affectedRows == 0)
             {
@@ -113,6 +112,19 @@ namespace IssueTrackingSystemApi.Controllers
             }
         }
 
-        //TODO: 刪除未完成
+        [Authorize]
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            int affectedRows = _projectService.DeleteProject(id);
+            if (affectedRows == 0)
+            {
+                return BadRequest("Invalid input, object invalid");
+            }
+            else
+            {
+                return Ok(affectedRows);
+            }
+        }
     }
 }
