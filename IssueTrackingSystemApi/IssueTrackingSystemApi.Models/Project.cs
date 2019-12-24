@@ -28,6 +28,6 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// 提問者
         /// </summary>
-        public List<User> General { get; set; }
+        public List<User> Generals { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace IssueTrackingSystemApi.Tests
     public class ProjectTest
     {
         private readonly IUserDao _userDao;
-        private IProjectService ProjectService { get => new ProjectService(); }
+        //private IProjectService ProjectService { get => new ProjectService(); }
         private IProjectDao ProjectDao { get => new ProjectDao(); }
 
         #region Dao

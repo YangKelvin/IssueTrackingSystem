@@ -12,12 +12,13 @@ namespace IssueTrackingSystemApi.Services
 {
     public class ProjectService : IProjectService
     {
-        private IProjectDao ProjectDao { get => new ProjectDao(); }
-        private IUserDao UserDao { get => new UserDao(); }
+        private readonly IProjectDao _projectDao;
+        private readonly IUserDao _userDao;
 
-        public ProjectService()
+        public ProjectService(IProjectDao projectDao, IUserDao userDao)
         {
-
+            _projectDao = projectDao;
+            _userDao = userDao;
         }
 
         /// <summary>
@@ -28,35 +29,41 @@ namespace IssueTrackingSystemApi.Services
         public int CreateProject(ProjectFront project)
         {
             ProjectEntity projectEntity = project.ObjectConvert<ProjectEntity>();
-            var projectId = ProjectDao.CreateProject(projectEntity);
+            var projectId = _projectDao.CreateProject(projectEntity);
 
             // 新增 UserProjectRelation 的關係
             // manager
-            ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+            _projectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
             {
                 ProjectId = projectId,
                 UserId = project.managerId,
                 ProjectCharactorId = 1  // Manager
             });
             // developer
-            foreach (var developerId in project.developersId)
+            if (project.developersId != null)
             {
-                ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+                foreach (var developerId in project.developersId)
                 {
-                    ProjectId = projectId,
-                    UserId = developerId,
-                    ProjectCharactorId = 2
-                });
+                    _projectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+                    {
+                        ProjectId = projectId,
+                        UserId = developerId,
+                        ProjectCharactorId = 2
+                    });
+                }
             }
             // general
-            foreach (var generalId in project.generalsId)
+            if (project.generalsId != null)
             {
-                ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+                foreach (var generalId in project.generalsId)
                 {
-                    ProjectId = projectId,
-                    UserId = generalId,
-                    ProjectCharactorId = 3
-                });
+                    _projectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+                    {
+                        ProjectId = projectId,
+                        UserId = generalId,
+                        ProjectCharactorId = 3
+                    });
+                }
             }
 
             return projectId;
@@ -69,12 +76,12 @@ namespace IssueTrackingSystemApi.Services
         /// <returns></returns>
         public Project GetProjectById(int id)
         {
-            ProjectEntity projectEntity = ProjectDao.Query(new ProjectEntity() { Id = id }).FirstOrDefault();
-            List<UserEntity> userEntitys = UserDao.Query().ToList();
+            ProjectEntity projectEntity = _projectDao.Query(new ProjectEntity() { Id = id }).FirstOrDefault();
+            List<UserEntity> userEntitys = _userDao.Query().ToList();
 
             Project project = projectEntity.ObjectConvert<Project>();
 
-            var relations = ProjectDao.GetRelationByProjectId(project.Id);
+            var relations = _projectDao.GetRelationByProjectId(project.Id);
 
             List<User> developers = new List<User>();
             List<User> generals = new List<User>();
@@ -96,7 +103,7 @@ namespace IssueTrackingSystemApi.Services
                 }
             }
             project.Developers = developers;
-            project.General = generals;
+            project.Generals = generals;
 
             return project;
         }
@@ -107,13 +114,13 @@ namespace IssueTrackingSystemApi.Services
         /// <returns></returns>
         public List<Project> GetAllProjects()
         {
-            List<ProjectEntity> projectEntities = ProjectDao.Query().ToList();
-            List<UserEntity> userEntitys = UserDao.Query().ToList();
+            List<ProjectEntity> projectEntities = _projectDao.Query().ToList();
+            List<UserEntity> userEntitys = _userDao.Query().ToList();
             var projects = projectEntities.Select(i => i.ObjectConvert<Project>()).ToList();
 
             foreach (var project in projects )
             {
-                var relations = ProjectDao.GetRelationByProjectId(project.Id);
+                var relations = _projectDao.GetRelationByProjectId(project.Id);
                 List<User> developers = new List<User>();
                 List<User> generals = new List<User>();
                 foreach (var r in relations)
@@ -133,7 +140,7 @@ namespace IssueTrackingSystemApi.Services
                     }
                 }
                 project.Developers = developers;
-                project.General = generals;
+                project.Generals = generals;
             }
 
             return projects;
@@ -147,14 +154,14 @@ namespace IssueTrackingSystemApi.Services
         public int UpdateProject(int projectId, ProjectFront project)
         {
             // TODO: udpate會夾manager, developers跟generals的Id(去ProjectFront看), 幫我把它們mapping進UserProjectRelation裡面, 感恩
-            ProjectDao.UpdateProject(new ProjectEntity() { Id = projectId }, project.ObjectConvert<ProjectEntity>());
+            _projectDao.UpdateProject(new ProjectEntity() { Id = projectId }, project.ObjectConvert<ProjectEntity>());
 
             // 更新 UserProjectRelation
-            ProjectDao.DeleteRelationByProjectId(projectId);    // 刪除所有關聯
+            _projectDao.DeleteRelationByProjectId(projectId);    // 刪除所有關聯
 
             // 新增 UserProjectRelation 的關係
             // manager
-            ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+            _projectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
             {
                 ProjectId = projectId,
                 UserId = project.managerId,
@@ -163,7 +170,7 @@ namespace IssueTrackingSystemApi.Services
             // developer
             foreach (var developerId in project.developersId)
             {
-                ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+                _projectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
                 {
                     ProjectId = projectId,
                     UserId = developerId,
@@ -173,7 +180,7 @@ namespace IssueTrackingSystemApi.Services
             // general
             foreach (var generalId in project.generalsId)
             {
-                ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+                _projectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
                 {
                     ProjectId = projectId,
                     UserId = generalId,
