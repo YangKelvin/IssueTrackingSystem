@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTrackingSystemApi.Comm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTrackingSystemApi.Tests", "IssueTrackingSystemApi.Tests\IssueTrackingSystemApi.Tests.csproj", "{7E8DE2E8-458C-4396-95E2-ECB3AC11CE07}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTrackingSystemApi.UITest", "IssueTrackingSystemApi.UITest\IssueTrackingSystemApi.UITest.csproj", "{08C4901F-8DB4-4081-9ECB-2CCB1706DEF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackingSystemApi.UITest.CommonTools", "IssueTrackingSystemApi.UITest.CommonTools\IssueTrackingSystemApi.UITest.CommonTools.csproj", "{A0DB1AA6-59F0-49C2-8151-D8C1FD16F467}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{7E8DE2E8-458C-4396-95E2-ECB3AC11CE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E8DE2E8-458C-4396-95E2-ECB3AC11CE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E8DE2E8-458C-4396-95E2-ECB3AC11CE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08C4901F-8DB4-4081-9ECB-2CCB1706DEF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08C4901F-8DB4-4081-9ECB-2CCB1706DEF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08C4901F-8DB4-4081-9ECB-2CCB1706DEF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08C4901F-8DB4-4081-9ECB-2CCB1706DEF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0DB1AA6-59F0-49C2-8151-D8C1FD16F467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0DB1AA6-59F0-49C2-8151-D8C1FD16F467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0DB1AA6-59F0-49C2-8151-D8C1FD16F467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0DB1AA6-59F0-49C2-8151-D8C1FD16F467}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
