@@ -115,5 +115,10 @@ namespace IssueTrackingSystemApi.Models
         /// 留言
         /// </summary>
         public List<IssueComment> Comments { get; set;}
+
+        /// <summary>
+        /// 專案 Id
+        /// </summary>
+        public int? ProjectId { get; set; }
     }
 }

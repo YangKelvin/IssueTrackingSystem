@@ -27,17 +27,37 @@ namespace IssueTrackingSystemApi.Services
         /// <returns></returns>
         public int CreateProject(ProjectFront project)
         {
-            // TODO: create會夾manager, developers跟generals的Id(去ProjectFront看), 幫我把它們mapping進UserProjectRelation裡面, 感恩
             ProjectEntity projectEntity = project.ObjectConvert<ProjectEntity>();
-
             var projectId = ProjectDao.CreateProject(projectEntity);
+
             // 新增 UserProjectRelation 的關係
-            int i = ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+            // manager
+            ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
             {
                 ProjectId = projectId,
                 UserId = project.managerId,
                 ProjectCharactorId = 1  // Manager
             });
+            // developer
+            foreach (var developerId in project.developersId)
+            {
+                ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+                {
+                    ProjectId = projectId,
+                    UserId = developerId,
+                    ProjectCharactorId = 2
+                });
+            }
+            // general
+            foreach (var generalId in project.generalsId)
+            {
+                ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+                {
+                    ProjectId = projectId,
+                    UserId = generalId,
+                    ProjectCharactorId = 3
+                });
+            }
 
             return projectId;
         }
@@ -127,7 +147,41 @@ namespace IssueTrackingSystemApi.Services
         public int UpdateProject(int projectId, ProjectFront project)
         {
             // TODO: udpate會夾manager, developers跟generals的Id(去ProjectFront看), 幫我把它們mapping進UserProjectRelation裡面, 感恩
-            return ProjectDao.UpdateProject(new ProjectEntity() { Id = projectId }, project.ObjectConvert<ProjectEntity>());
+            ProjectDao.UpdateProject(new ProjectEntity() { Id = projectId }, project.ObjectConvert<ProjectEntity>());
+
+            // 更新 UserProjectRelation
+            ProjectDao.DeleteRelationByProjectId(projectId);    // 刪除所有關聯
+
+            // 新增 UserProjectRelation 的關係
+            // manager
+            ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+            {
+                ProjectId = projectId,
+                UserId = project.managerId,
+                ProjectCharactorId = 1  // Manager
+            });
+            // developer
+            foreach (var developerId in project.developersId)
+            {
+                ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+                {
+                    ProjectId = projectId,
+                    UserId = developerId,
+                    ProjectCharactorId = 2
+                });
+            }
+            // general
+            foreach (var generalId in project.generalsId)
+            {
+                ProjectDao.CreateUserProjectRelation(new UserProjectRelationEntity()
+                {
+                    ProjectId = projectId,
+                    UserId = generalId,
+                    ProjectCharactorId = 3
+                });
+            }
+
+            return projectId;
         }
         
     }

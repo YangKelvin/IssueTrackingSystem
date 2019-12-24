@@ -65,13 +65,24 @@ namespace IssueTrackingSystemApi.Dao
 
         public IEnumerable<UserProjectRelationEntity> GetRelationByProjectId(int? projectId)
         {
-            // 有問題
             UserProjectRelationEntity condition = new UserProjectRelationEntity()
             {
                 ProjectId = projectId
             };
             return SqlHelper.Select(condition);
         }
-        
+
+        /// <summary>
+        /// 刪除 relation
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="userId"></param>
+        /// <param name="charactorId"></param>
+        /// <returns></returns>
+        public int DeleteRelationByProjectId(int projectId)
+        {
+            return SqlHelper.Delete(new UserProjectRelationEntity() { ProjectId = projectId });
+        }
+
     }
 }
