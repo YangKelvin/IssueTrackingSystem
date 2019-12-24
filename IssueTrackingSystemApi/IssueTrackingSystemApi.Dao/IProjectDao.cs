@@ -11,6 +11,6 @@ namespace IssueTrackingSystemApi.Dao
         IEnumerable<ProjectEntity> Query(ProjectEntity condition = null);
         int UpdateProject(ProjectEntity condition, ProjectEntity project);
         int CreateUserProjectRelation(UserProjectRelationEntity entity);
-        IEnumerable<UserProjectRelationEntity> GetRelationByProjectId(int projectId);
+        IEnumerable<UserProjectRelationEntity> GetRelationByProjectId(int? projectId);
     }
 }

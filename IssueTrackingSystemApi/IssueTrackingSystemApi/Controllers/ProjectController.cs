@@ -74,7 +74,7 @@ namespace IssueTrackingSystemApi.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        public IActionResult Create([FromBody] CreateProject project)
+        public IActionResult Create([FromBody] ProjectFront project)
         {
             int affectedRows = _projectService.CreateProject(project);
             if (affectedRows == 0)
@@ -99,10 +99,10 @@ namespace IssueTrackingSystemApi.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost("{id}")]
-        public IActionResult Update(int id, [FromBody] Project project)
+        public IActionResult Update(int id, [FromBody] ProjectFront project)
         {
             //TODO: 更新未完成
-            int affectedRows = _projectService.UpdateProject(project);
+            int affectedRows = _projectService.UpdateProject(id, project);
             if (affectedRows == 0)
             {
                 return BadRequest("Invalid input, object invalid");

@@ -63,7 +63,7 @@ namespace IssueTrackingSystemApi.Dao
             return SqlHelper.Insert(entity);    
         }
 
-        public IEnumerable<UserProjectRelationEntity> GetRelationByProjectId(int projectId)
+        public IEnumerable<UserProjectRelationEntity> GetRelationByProjectId(int? projectId)
         {
             // 有問題
             UserProjectRelationEntity condition = new UserProjectRelationEntity()

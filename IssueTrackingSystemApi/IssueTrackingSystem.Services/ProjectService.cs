@@ -25,8 +25,9 @@ namespace IssueTrackingSystemApi.Services
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        public int CreateProject(CreateProject project)
+        public int CreateProject(ProjectFront project)
         {
+            // TODO: create會夾manager, developers跟generals的Id(去ProjectFront看), 幫我把它們mapping進UserProjectRelation裡面, 感恩
             ProjectEntity projectEntity = project.ObjectConvert<ProjectEntity>();
 
             var projectId = ProjectDao.CreateProject(projectEntity);
@@ -61,7 +62,11 @@ namespace IssueTrackingSystemApi.Services
             foreach (var r in relations)
             {
                 User tmp = userEntitys.Find(u => u.Id == r.UserId).ObjectConvert<User>();
-                if (r.ProjectCharactorId == 2) //developer
+                if (r.ProjectCharactorId == 1) //manager
+                {
+                    project.Manager = tmp;
+                }
+                else if (r.ProjectCharactorId == 2) //developer
                 {
                     developers.Add(tmp);
                 }
@@ -94,7 +99,11 @@ namespace IssueTrackingSystemApi.Services
                 foreach (var r in relations)
                 {
                     User tmp = userEntitys.Find(u => u.Id == r.UserId).ObjectConvert<User>();
-                    if (r.ProjectCharactorId == 2) //developer
+                    if (r.ProjectCharactorId == 1) //manager
+                    {
+                        project.Manager = tmp;
+                    }
+                    else if (r.ProjectCharactorId == 2) //developer
                     {
                         developers.Add(tmp);
                     }
@@ -115,9 +124,10 @@ namespace IssueTrackingSystemApi.Services
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        public int UpdateProject(Project project)
+        public int UpdateProject(int projectId, ProjectFront project)
         {
-            return ProjectDao.UpdateProject(new ProjectEntity() { Id = project.Id }, project.ObjectConvert<ProjectEntity>());
+            // TODO: udpate會夾manager, developers跟generals的Id(去ProjectFront看), 幫我把它們mapping進UserProjectRelation裡面, 感恩
+            return ProjectDao.UpdateProject(new ProjectEntity() { Id = projectId }, project.ObjectConvert<ProjectEntity>());
         }
         
     }

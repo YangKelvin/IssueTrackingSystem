@@ -9,7 +9,7 @@ namespace IssueTrackingSystemApi.Models
         /// <summary>
         /// 專案編號
         /// </summary>
-        public int Id { get; set; }
+        public int? Id { get; set; }
         /// <summary>
         /// 專案名稱
         /// </summary>
