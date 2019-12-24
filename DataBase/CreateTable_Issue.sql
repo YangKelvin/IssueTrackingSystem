@@ -21,7 +21,7 @@ CREATE TABLE [Issue] (
     [UrgencyId] INT,      -- 問題緊急性 Id
     [ProjectId] INT,      -- 專案 Id
     [CreateTime] DATETIME,            -- 建立問題時間
-    [CreateUesr] INT,     -- 建立人 Id
+    [CreateUser] INT,     -- 建立人 Id
     [ModifyTime] DATETIME,            -- 最後修改問題時間
     [ModifyUser] INT,     -- 最後修改人 Id
     FOREIGN KEY (AssigneeId) REFERENCES [User](Id),
@@ -31,6 +31,6 @@ CREATE TABLE [Issue] (
     FOREIGN KEY (StatusId) REFERENCES [IssueStatus](Id),
     FOREIGN KEY (UrgencyId) REFERENCES [IssueUrgency](Id),
     FOREIGN KEY (ProjectId) REFERENCES [Project](Id),
-    FOREIGN KEY (CreateUesr) REFERENCES [User](Id),
+    FOREIGN KEY (CreateUser) REFERENCES [User](Id),
     FOREIGN KEY (ModifyUser) REFERENCES [User](Id)
 );
