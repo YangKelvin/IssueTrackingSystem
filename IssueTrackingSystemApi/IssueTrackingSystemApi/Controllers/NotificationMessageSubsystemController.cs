@@ -46,7 +46,7 @@ namespace IssueTrackingSystemApi.Controllers
             });
             if(effNum == 1)
             {
-                return Ok();
+                return Ok(_userService.GetUserByAccount(user.Account).CharactorId == 1 ? "Admin" : "User");
             }
 
             return BadRequest();
