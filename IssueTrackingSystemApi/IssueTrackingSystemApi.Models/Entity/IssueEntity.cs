@@ -128,8 +128,8 @@ namespace IssueTrackingSystemApi.Models.Entity
         /// <summary>
         /// 建立人 Id
         /// </summary>
-        [DB(ColumnName = "CreateUesr")]
-        public int?CreateUesr { get; set; }
+        [DB(ColumnName = "CreateUser")]
+        public int?CreateUser { get; set; }
 
         /// <summary>
         /// 最後修改問題時間
