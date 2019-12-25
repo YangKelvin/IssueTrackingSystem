@@ -9,10 +9,10 @@ Scenario: 基本頁面
 
 Scenario: 登入系統
 	Given 我前往網頁 /
-	Then 我輸入帳號 Admin
-	And 我輸入密碼 admin
+	Then 我輸入帳號 ApiUITest
+	And 我輸入密碼 1234
 	And 我按下登入按鈕
-	Then 首頁應顯示名稱 Kelvin
+	Then 首頁應顯示名稱 chrisTestAccount
 
 Scenario: 查看個人資料
 	Given 我前往網頁 /
