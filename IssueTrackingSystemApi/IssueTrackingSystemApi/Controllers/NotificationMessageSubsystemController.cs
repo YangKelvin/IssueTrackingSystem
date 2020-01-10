@@ -61,5 +61,15 @@ namespace IssueTrackingSystemApi.Controllers
             return Ok();
         }
 
+#if DEBUG
+        [HttpGet]
+        [Route("Test")]
+        public IActionResult Test()
+        {
+            int?[] x = { 3 };
+            _notificationMessageSubsystem.SendALLmessage("測試主旨", "測123", x);
+            return Ok();
+        }
+#endif
     }
 }

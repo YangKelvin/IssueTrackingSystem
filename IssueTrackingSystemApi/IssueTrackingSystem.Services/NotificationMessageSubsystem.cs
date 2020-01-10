@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using IssueTrackingSystemApi.Models;
 using Microsoft.Extensions.Configuration;
+using IssueTrackingSystemApi.Dao;
+using IssueTrackingSystemApi.CommonTools;
+using IssueTrackingSystemApi.Models.Entity;
 
 namespace IssueTrackingSystemApi.Services
 {
@@ -16,10 +19,42 @@ namespace IssueTrackingSystemApi.Services
         public string LintHostString { get => @"https://mysterious-wave-50057.herokuapp.com/SendIssueNotification/"; }
 
         public IConfiguration Config { get; }
+        private readonly IUserDao _userDao;
 
-        public NotificationMessageSubsystem(IConfiguration configuration)
+        public NotificationMessageSubsystem(IConfiguration configuration, IUserDao userDao)
         {
             Config = configuration;
+            _userDao = userDao;
+        }
+
+        public bool SendALLmessage(string subject, string message, int?[] addresseesUserId, int?[] carbonCopysUserId = null, Attachment[] attachments = null)
+        {
+            if (!addresseesUserId.Any())
+                return false;
+            User[] addresseesUser = addresseesUserId.Select(i =>
+            {
+                if (!i.HasValue) 
+                    return new User();
+                return _userDao.Query(new UserEntity() { Id = i.Value })
+                               .First().ObjectConvert<User>();
+            }).ToArray();
+            User[] carbonCopysUser = (carbonCopysUserId == null) ? new User[] { }
+                                                                 : carbonCopysUserId.Select(i =>
+            {
+                if (!i.HasValue)
+                    return new User();
+                return _userDao.Query(new UserEntity() { Id = i.Value })
+                            .First().ObjectConvert<User>();
+            }).ToArray();
+
+            this.SendMail(subject, message, 
+                addresseesUser.Select(i => i.EMail).ToArray(), 
+                carbonCopysUser.Select(i => i.EMail).ToArray(), 
+                attachments);
+
+            this.SendLineMessage(message, addresseesUser.Concat(carbonCopysUser).ToArray());
+
+            return true;
         }
 
         /// <summary>

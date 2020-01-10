@@ -21,9 +21,11 @@ namespace IssueTrackingSystemApi.Controllers
     public class ProjectController : ControllerBase
     {
         private IProjectService _projectService;
-        public ProjectController(IProjectService projectService)
+        private readonly INotificationMessageSubsystem NMS;
+        public ProjectController(IProjectService projectService, INotificationMessageSubsystem nms)
         {
             _projectService = projectService;
+            NMS = nms;
         }
 
         /// <summary>
@@ -87,6 +89,11 @@ namespace IssueTrackingSystemApi.Controllers
             }
             else
             {
+                int?[] userIds = new int?[] { project.managerId };
+                userIds = userIds.Concat(project.generalsId).ToArray()
+                                 .Concat(project.developersId).ToArray();
+                NMS.SendALLmessage($"Create Issue {project.Name}", $"Create Issue {project.Name}", userIds);
+                
                 return Ok(affectedRows);
             }
         }
@@ -108,6 +115,11 @@ namespace IssueTrackingSystemApi.Controllers
             }
             else
             {
+                int?[] userIds = new int?[] { project.managerId };
+                userIds = userIds.Concat(project.generalsId).ToArray()
+                                 .Concat(project.developersId).ToArray();
+                NMS.SendALLmessage($"Update Issue {project.Name}", $"Update Issue {project.Name}", userIds);
+
                 return Ok(affectedRows);
             }
         }
@@ -116,6 +128,8 @@ namespace IssueTrackingSystemApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            Project project = _projectService.GetProjectById(id);
+
             int affectedRows = _projectService.DeleteProject(id);
             if (affectedRows == 0)
             {
@@ -123,6 +137,11 @@ namespace IssueTrackingSystemApi.Controllers
             }
             else
             {
+                int?[] userIds = new int?[] { project.Manager.Id };
+                userIds = userIds.Concat(project.Generals.Select(i => i.Id)).ToArray()
+                                 .Concat(project.Developers.Select(i => i.Id)).ToArray();
+                NMS.SendALLmessage($"Create Issue {project.Name}", $"Create Issue {project.Name}", userIds);
+
                 return Ok(affectedRows);
             }
         }
