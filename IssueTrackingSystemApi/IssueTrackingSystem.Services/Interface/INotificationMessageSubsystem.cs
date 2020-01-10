@@ -25,5 +25,7 @@ namespace IssueTrackingSystemApi.Services
         /// <param name="attachments">附件</param>
         /// <returns></returns>
         bool SendMail(string subject, string mailMessage, string[] addressees, string[] carbonCopys = null, Attachment[] attachments = null);
+
+        bool SendALLmessage(string subject, string message, int?[] addresseesUserId, int?[] carbonCopysUserId = null, Attachment[] attachments = null);
     }
 }

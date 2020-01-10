@@ -17,9 +17,12 @@ namespace IssueTrackingSystemApi.Controllers
     public class IssueController : ControllerBase
     {
         private IIssueService _IssueService;
-        public IssueController(IIssueService IssueService)
+        private readonly INotificationMessageSubsystem NMS;
+
+        public IssueController(IIssueService IssueService, INotificationMessageSubsystem nms)
         {
             _IssueService = IssueService;
+            NMS = nms;
         }
 
         [Authorize]
@@ -56,9 +59,9 @@ namespace IssueTrackingSystemApi.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Create([FromBody] Issue Issue)
+        public IActionResult Create([FromBody] Issue issue)
         {
-            int affectedRows = _IssueService.CreateIssue(Issue);
+            int affectedRows = _IssueService.CreateIssue(issue);
             if (affectedRows == 0)
             {
                 return BadRequest("Invalid input, object invalid");
@@ -69,6 +72,7 @@ namespace IssueTrackingSystemApi.Controllers
             }
             else
             {
+                NMS.SendALLmessage($"Create Issue {issue.Number}", $"Create Issue {issue.Number} {issue.Description}", new int?[] { issue.CreateUser });
                 return Ok(affectedRows);
             }
         }
@@ -85,6 +89,7 @@ namespace IssueTrackingSystemApi.Controllers
             }
             else
             {
+                NMS.SendALLmessage($"Update Issue {issue.Number}", $"Update Issue {issue.Number} {issue.Description}", new int?[] { issue.CreateUser, issue.ModifyUser });
                 return Ok(affectedRows);
             }
         }
@@ -93,6 +98,8 @@ namespace IssueTrackingSystemApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            Issue issue = _IssueService.GetIssueById(id);
+
             int affectedRows = _IssueService.DeleteIssue(id);
             if (affectedRows == 0)
             {
@@ -100,6 +107,8 @@ namespace IssueTrackingSystemApi.Controllers
             }
             else
             {
+                NMS.SendALLmessage($"Delete Issue {issue.Number}", $"Delete Issue {issue.Number} {issue.Description}", new int?[] { issue.CreateUser });
+
                 return Ok(affectedRows);
             }
         }
